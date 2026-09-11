@@ -17,3 +17,5 @@ This is now possible in RAP in two ways:
 🔗 [RAP Recommendations — SAP Help](https://help.sap.com/docs/abap-cloud/abap-rap/recommendations)
 
 📄 [View PDF](/assets/pdf/rap_recommendations.pdf)
+
+<iframe src="/bharathi-sakthivel.github.io/assets/pdf/rap_recommendations.pdf" width="100%" height="600px" style="border:1px solid #ccc;"></iframe>
