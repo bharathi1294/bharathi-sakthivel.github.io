@@ -1,39 +1,45 @@
 ---
-title: "Display Message Strip by Default in Object Page"
+title: "Display Message Strip by Default in Object Page using Instance Features"
 date: 2026-03-23 08:00:00 +0530
 categories: [ABAP RAP]
-tags: [rap, abap, message-strip, fiori]
+tags: [rap, abap, message-strip, instance-features, fiori]
 ---
 
+Here's a simple example: if a travel request is completed, it shows an information message and no updates are allowed; if it's accepted, it shows a success message; and if it's rejected, it shows an error message.
+
+The same approach can be extended to your own requirements — for instance, you can choose to display messages only in display or edit mode.
+
+**Step 1 — Add actions in Metadata Extensions:**
+
 ```abap
-"Display Message Strip by Default in Object Page using Instance Features
-"Step 1 – Add actions in Metadata Extensions
 annotate view YR_TRAVELTP with
 {
-@UI.identification: [
-  { type: #FOR_ACTION, label: 'Accept', dataAction: 'AcceptTravel', position: 10 },
-  { type: #FOR_ACTION, label: 'Reject', dataAction: 'RejectTravel', position: 20 }
-]
-....
+  @UI.identification: [
+    { type: #FOR_ACTION, label: 'Accept', dataAction: 'AcceptTravel', position: 10 },
+    { type: #FOR_ACTION, label: 'Reject', dataAction: 'RejectTravel', position: 20 }
+  ]
+  ....
 }
+```
 
+**Step 2 — Update the Behavior Definition (BDEF):**
 
-"Step 2 – Update the Behavior Definition (BDEF)
-define behavior for YR_TRAVELTP alias Travel 
-.....
+```abap
+define behavior for YR_TRAVELTP alias Travel
 {
-  .....
   update ( features : instance );
   field ( features : instance ) OverallStatus;
   draft action ( features : instance ) Edit;
 
   action ( features : instance ) AcceptTravel result [1] $self;
-  action ( features : instance ) RejectTravel result [1] $self; 
+  action ( features : instance ) RejectTravel result [1] $self;
   ....
 }
+```
 
+**Step 3 — Implement Logic in the Behavior Implementation (BIL):**
 
-"Step 3 – Implement Logic in the Behavior Implementation (BIL)
+```abap
 METHOD AcceptTravel.
     MODIFY ENTITIES OF YR_TRAVELTP IN LOCAL MODE
     ENTITY Travel
@@ -117,8 +123,8 @@ METHOD get_instance_features.
                                                  ELSE if_abap_behv=>fc-o-enabled ) ) ) ).
   ENDLOOP.
 ENDMETHOD.
-
-"Step 4 – Expose the actions in the projection BDEF YC_TRAVELTP (if not already exposed)
-"Step 5 – Test and See the Result
-"When you open the Object Page, the relevant message strip will appear automatically based on the travel status — Completed, Accepted, or Rejected.
 ```
+
+**Step 4** — Expose the actions in the projection BDEF `YC_TRAVELTP` (if not already exposed).
+
+**Step 5 — Result:** When you open the Object Page, the relevant message strip will appear automatically based on the travel status — Completed, Accepted, or Rejected.
