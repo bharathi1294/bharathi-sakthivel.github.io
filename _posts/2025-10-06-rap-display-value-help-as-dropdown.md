@@ -76,4 +76,4 @@ By using these annotations:
 - Users cannot clear the selected value.
 - No additional validation is required to ensure a value is selected.
 
-![RadioButton]({{ '/src/images/RadioButton.png' | relative_url }})
+![RadioButton](/assets/images/RadioButton.png)

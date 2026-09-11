@@ -15,4 +15,4 @@ So, how can we distinguish whether the call originates from the UI or the API? T
 
 The lv_proj variable will hold the name of the calling projection `C_SomeName` if the call is from the UI or `A_SomeName` if it’s from the API. Based on this, you can conditionally execute logic in the handler class of `R_SomeName`.
 
-![cl_abap_behv_aux ]({{ '/src/images/cl_abap_behv_aux.png' | relative_url }})
+![cl_abap_behv_aux ](/assets/images/cl_abap_behv_aux.png)

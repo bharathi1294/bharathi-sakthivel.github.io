@@ -30,4 +30,4 @@ Use Case Example: A colleague recently had a requirement to add a section-specif
  `emphasized: true }]`\
  `element;`
 
-![Inline_Actions_in_Object_Page_Sections ]({{ '/src/images/Inline_Actions_in_Object_Page_Sections.gif' | relative_url }})
+![Inline_Actions_in_Object_Page_Sections ](/assets/images/Inline_Actions_in_Object_Page_Sections.gif)
