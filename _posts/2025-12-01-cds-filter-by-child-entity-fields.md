@@ -1,53 +1,17 @@
 ---
-title: "CDS: Filter List Report by Child Entity Fields"
+title: "Filter List Reports by Child Entity Fields"
 date: 2025-12-01 08:00:00 +0530
 categories: [CDS]
-tags: [cds, fiori, rap, odata-v4, list-report, filter, annotations]
+tags: [cds, abap, fiori, filter]
 ---
 
-Need a filter bar filter that targets a field on a **child/associated entity** rather than the root? One annotation does it.
+Have you ever wanted to filter a list report based on a field from a child entity? For example, filtering travel records by the AirlineID from the associated _Booking entity?
 
-> Works with **OData V4** only.
+You can achieve this by adding the following annotation to the root CDS view metadata extensions (e.g., Travel):\
 
-## Annotation — on Root Metadata Extension
+`@𝗨𝗜.𝘀𝗲𝗹𝗲𝗰𝘁𝗶𝗼𝗻𝗙𝗶𝗲𝗹𝗱: [{ 𝗲𝗹𝗲𝗺𝗲𝗻𝘁: '_𝗕𝗼𝗼𝗸𝗶𝗻𝗴.𝗔𝗶𝗿𝗹𝗶𝗻𝗲𝗜𝗗', 𝗽𝗼𝘀𝗶𝘁𝗶𝗼𝗻: 𝟱𝟬 }]`\
+`_𝗕𝗼𝗼𝗸𝗶𝗻𝗴;`
 
-```abap
-@UI.selectionField: [
-  {
-    element:  '_Booking.AirlineID',
-    position: 50
-  }
-]
-TravelId;
-```
+I tested this in the BTP ABAP Environment, and it works perfectly but only with OData V4.
 
-The `element` uses the **association path** notation: `_AssocName.FieldName`.
-
-## How it Works
-
-When the user selects an AirlineID in the filter bar, the OData V4 query filters `Travel` records that have at least one `Booking` with that `AirlineID`. No custom filter logic needed — Fiori Elements and OData V4 handle the join automatically.
-
-## Full Example
-
-```abap
-" ZC_Travel — Metadata Extension
-@Metadata.layer: #CUSTOMER
-
-annotate view ZC_Travel with
-{
-  @UI.selectionField: [
-    { element: 'TravelId',         position: 10 },
-    { element: 'AgencyId',         position: 20 },
-    { element: '_Booking.AirlineID', position: 50 }   " <-- child field
-  ]
-  TravelId;
-}
-```
-
-## Requirements
-
-| Requirement | Detail |
-|---|---|
-| OData version | V4 only (V2 not supported) |
-| Association | Must be a to-N or to-1 association on the root CDS view |
-| Fiori floorplan | List Report Object Page |
+![Filter_List_Reports_by_Child_Entity_Fields ](../src/images/Filter_List_Reports_by_Child_Entity_Fields.gif)

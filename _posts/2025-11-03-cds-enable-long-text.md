@@ -1,55 +1,12 @@
 ---
-title: "CDS: Enable Multi-line Long Text with @UI.multiLineText"
+title: "Enable Long Text in CDS"
 date: 2025-11-03 08:00:00 +0530
 categories: [CDS]
-tags: [cds, fiori, rap, abap, annotation, long-text, ui]
+tags: [cds, abap, long-text]
 ---
 
-Need a multi-line text area in your Fiori app? One annotation is all it takes.
+Here's a useful CDS annotation that enables long text/multiline text functionality. If you want to create or display long text fields in your RAP application, you can easily achieve this by using the `@UI.multiLineText` annotation.
 
-## Annotation
+Additionally, if you want to display the long text as a separate tab in your application, you can create a new facet (with type `IDENTIFICATION_REFERENCE` or `FIELDGROUP_REFERENCE`) that references your long text field.
 
-```abap
-define view entity ZC_MyEntity
-  as projection on ZR_MyEntity
-{
-  key id,
-
-  @UI.multiLineText: true
-  description
-}
-```
-
-This renders the field as a **text area** instead of a single-line input in the Fiori Object Page.
-
-## Show Long Text in a Separate Tab
-
-If the text is important enough to deserve its own tab, create a dedicated facet:
-
-```abap
-@UI.facet: [
-  {
-    id:       'GeneralInfo',
-    type:     #IDENTIFICATION_REFERENCE,
-    label:    'General Information',
-    position: 10
-  },
-  {
-    id:       'LongText',
-    type:     #IDENTIFICATION_REFERENCE,
-    label:    'Notes',
-    position: 20,
-    targetQualifier: 'LongTextGroup'
-  }
-]
-
-@UI.identification: [{ position: 10, qualifier: 'LongTextGroup' }]
-@UI.multiLineText: true
-description;
-```
-
-## Tips
-
-- Works with both **Fiori Elements** List Report + Object Page and standalone Object Pages
-- Combine with `@EndUserText.label` for a clean field label
-- For very long text (>1333 chars), consider the virtual element + `SAVE_TEXT` approach instead
+![Long Text Example](../src/images/Enable_LongText_In_CDS.jpg)

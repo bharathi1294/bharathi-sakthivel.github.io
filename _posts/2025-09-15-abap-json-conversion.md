@@ -1,86 +1,73 @@
 ---
-title: "JSON Conversion in ABAP Using /ui2/cl_json"
+title: "JSON Conversion in ABAP"
 date: 2025-09-15 08:00:00 +0530
-categories: [ABAP New Syntax]
-tags: [abap, json, serialization, deserialization, ui2-cl-json]
+categories: [JSON]
+tags: [abap, json]
 ---
 
-The `/ui2/cl_json` class is the go-to tool for JSON serialization and deserialization in ABAP. Here's a complete reference for all its key capabilities.
-
-## 1. Table → JSON (Serialize)
-
 ```abap
-DATA(lv_json) = /ui2/cl_json=>serialize(
-    data        = lt_employees
-    pretty_name = /ui2/cl_json=>pretty_mode-camel_case
-).
-```
+TYPES: BEGIN OF ty_emp_type,
+         employeeid          TYPE c LENGTH 3,
+         employeename        TYPE c LENGTH 20,
+         employeeage         TYPE c LENGTH 3,
+         employeemobilenumber TYPE c LENGTH 10,
+       END OF ty_emp_type,
+       tt_emp_tab_type TYPE TABLE OF ty_emp_type WITH EMPTY KEY.
 
-## 2. JSON → Table with Field Name Mapping
+DATA(emp_tab) = VALUE #(
+  ( employeeid = '1' employeename = 'Bharathi S' employeeage = '24' employeemobilenumber = '1234567890' )
+  ( employeeid = '2' employeename = 'Siva S'     employeeage = '24' employeemobilenumber = '1234567890' )
+  ( employeeid = '3' employeename = 'Sasi S'     employeeage = '24' employeemobilenumber = '1234567890' ) ).
 
-Use when JSON field names differ from your ABAP structure names:
+* Table to JSON
+DATA(lv_emp_table_to_json) = /ui2/cl_json=>serialize(
+                               data          = emp_tab
+                               format_output = abap_true
+                               pretty_name   = /ui2/cl_json=>pretty_mode-camel_case ).  "none,low_case,camel_case,extended, user, user_low_case
+                    
+* JSON to table (with different column names)
+TYPES: BEGIN OF ty_emp_type_map,
+         empid        TYPE c LENGTH 3,
+         empname      TYPE c LENGTH 20,
+         empage       TYPE c LENGTH 3,
+         empmobnumber TYPE c LENGTH 10,
+       END OF ty_emp_type_map,
+       tt_emp_tab_type_map TYPE TABLE OF ty_emp_type_map WITH EMPTY KEY.
 
-```abap
+DATA(lt_emp_data_from_json_map) = VALUE tt_emp_tab_type_map( ).
 /ui2/cl_json=>deserialize(
-    EXPORTING
-        json          = lv_json
-        name_mappings = VALUE #(
-            ( abap = 'EMPID'    json = 'EMPLOYEEID'   )
-            ( abap = 'EMPNAME'  json = 'EMPLOYEENAME' )
-        )
-    CHANGING
-        data = lt_employees
-).
-```
+  EXPORTING
+    json          = lv_emp_table_to_json
+    name_mappings = VALUE #( ( abap = 'EMPID'        json = 'EMPLOYEEID' )
+                             ( abap = 'EMPNAME'      json = 'EMPLOYEENAME' )
+                             ( abap = 'EMPAGE'       json = 'EMPLOYEEAGE' )
+                             ( abap = 'EMPMOBNUMBER' json = 'EMPLOYEEMOBILENUMBER' ) )
+  CHANGING
+    data          = lt_emp_data_from_json_map ).
 
-## 3. Direct JSON → Table
-
-When JSON field names already match your ABAP field names:
-
-```abap
+* JSON to table
+DATA(lt_emp_data_from_json) = VALUE tt_emp_tab_type( ).
 /ui2/cl_json=>deserialize(
-    EXPORTING json = lv_json
-    CHANGING  data = lt_employees
-).
-```
-
-## 4. Conversion Exits
-
-Applies domain conversion — e.g. language code `'E'` → `'EN'`:
-
-```abap
-/ui2/cl_json=>deserialize(
-    EXPORTING
-        json             = lv_json
-        conversion_exits = abap_true
-    CHANGING
-        data = lt_employees
-).
-```
-
-## 5. Unknown / Dynamic JSON Structure
-
-When you don't know the structure upfront, use `generate()`:
-
-```abap
-DATA: lr_data TYPE REF TO data.
-
-/ui2/cl_json=>deserialize(
-    EXPORTING json = lv_json
-    CHANGING  data = lr_data
+  EXPORTING
+    json   = lv_emp_table_to_json
+  CHANGING
+    data   = lt_emp_data_from_json
 ).
 
-" Access via dereferencing
-DATA(lv_value) = lr_data->*.
+* Conversion Exists
+TYPES: BEGIN OF ty_customer_data,
+        customerId TYPE kunnr,
+        language   TYPE spras,
+       END OF ty_customer_data.
+DATA(ls_sales_data) = VALUE ty_customer_data( language = 'E' customerid = '1' ).
+DATA(lv_json_Sales_data) = /ui2/cl_json=>serialize(
+                      data             = ls_sales_data
+                      conversion_exits = abap_true ).
+"E -> Will be changed into EN
+
+* Unknown type
+DATA(lv_unknown_json) = `[ { "EmployeeId":"1", "EmployeeName":"Saranya S" },` &&
+                        `{ "EmployeeId":"2", "EmployeeName":"Saran S" }]`.
+DATA(lr_emp_data) = /ui2/cl_json=>generate( json = lv_unknown_json ).
+" This can be accessed by lr_emp_data->*
 ```
-
-## Quick Reference
-
-| Method | Use case |
-|---|---|
-| `serialize()` | ABAP → JSON |
-| `deserialize()` | JSON → ABAP |
-| `pretty_name = camel_case` | camelCase field names in output |
-| `name_mappings` | map different field names |
-| `conversion_exits = abap_true` | apply domain conversions |
-| `generate()` | dynamic/unknown JSON structures |

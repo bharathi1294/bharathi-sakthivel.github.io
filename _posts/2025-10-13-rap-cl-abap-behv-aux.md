@@ -1,48 +1,18 @@
 ---
-title: "RAP: Distinguish UI vs API Calls with cl_abap_behv_aux"
+title: "The usage of the class 𝗰𝗹_𝗮𝗯𝗮𝗽_𝗯𝗲𝗵𝘃_𝗮𝘂𝘅."
 date: 2025-10-13 08:00:00 +0530
 categories: [ABAP RAP]
-tags: [rap, abap, cl-abap-behv-aux, projection, api, ui]
+tags: [rap, abap, behavior]
 ---
 
-When your RAP Business Object has both a **UI projection** and an **API projection**, you often need validations or determinations to run **only for UI calls** — not for API calls.
+Recently, I came across a scenario I’d like to share. I had a BDEF named `R_SomeName`, and on top of that, I created two projections: one for the `UI (C_SomeName)` and another for the `API (A_SomeName)`.
 
-## The Problem
+Now, here's the interesting part: `R_SomeName` contains some validations and determinations. For the time being, I only want these to execute when the call is coming from the UI, not from the API.
 
-```
-R_SomeName  (Root BO)
-  ├── C_SomeName  (UI Projection)
-  └── A_SomeName  (API Projection)
-```
+So, how can we distinguish whether the call originates from the UI or the API? This is where the class `𝗰𝗹_𝗮𝗯𝗮𝗽_𝗯𝗲𝗵𝘃_𝗮𝘂𝘅` comes in handy:
 
-Validations in `R_SomeName` fire for both projections. But some checks (e.g., mandatory field warnings) only make sense for the UI.
+`𝗰𝗹_𝗮𝗯𝗮𝗽_𝗯𝗲𝗵𝘃_𝗮𝘂𝘅=>𝗴𝗲𝘁_𝗰𝘂𝗿𝗿𝗲𝗻𝘁_𝗰𝗼𝗻𝘁𝗲𝘅𝘁( 𝗜𝗠𝗣𝗢𝗥𝗧𝗜𝗡𝗚 𝗳𝗿𝗼𝗺_𝗽𝗿𝗼𝗷𝗲𝗰𝘁𝗶𝗼𝗻 = 𝗗𝗔𝗧𝗔(𝗹𝘃_𝗽𝗿𝗼𝗷) ).`
 
-## The Solution: `cl_abap_behv_aux=>get_current_context()`
+The lv_proj variable will hold the name of the calling projection `C_SomeName` if the call is from the UI or `A_SomeName` if it’s from the API. Based on this, you can conditionally execute logic in the handler class of `R_SomeName`.
 
-```abap
-METHOD validate_for_ui_only.
-  cl_abap_behv_aux=>get_current_context(
-    IMPORTING from_projection = DATA(lv_projection)
-  ).
-
-  " Only run for UI projection calls
-  CHECK lv_projection = 'C_SOMENAME'.
-
-  " Your validation logic here
-  READ ENTITIES OF R_SomeName ...
-ENDMETHOD.
-```
-
-`lv_projection` is populated with the **name of the calling projection** — so you can branch based on which projection triggered the call.
-
-## Practical Use Cases
-
-| Scenario | Use |
-|---|---|
-| Mandatory field check only for UI | `CHECK lv_projection = 'C_...'` |
-| Skip heavy validation for API batch loads | `CHECK lv_projection <> 'A_...'` |
-| Different determination logic per channel | `IF lv_projection = 'C_...'` |
-
-## Note
-
-The projection name is returned in **uppercase**. Make sure your comparison matches the actual projection view name in your system.
+![cl_abap_behv_aux ](../src/images/cl_abap_behv_aux.png)

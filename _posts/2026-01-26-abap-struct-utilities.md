@@ -1,55 +1,34 @@
 ---
-title: "ABAP: CL_ABAP_STRUCT_UTILITIES — Get Non-Initial Fields from a Structure"
+title: "CL ABAP STRUCT UTILITIES"
 date: 2026-01-26 08:00:00 +0530
 categories: [ABAP New Syntax]
-tags: [abap, cl-abap-struct-utilities, structure, reflection, new-syntax]
+tags: [abap, struct, utilities]
 ---
-
-`cl_abap_struct_utilities=>filled_components()` returns only the **non-initial (filled) components** of a structure — useful when you want to process only the fields that actually have values.
-
-## Use Case
-
-You have a structure with 5 user ID fields, but only 4 are filled. You want to collect just those 4 into a table.
 
 ```abap
 TYPES: BEGIN OF ty_user,
-         user_id1 TYPE uname,
-         user_id2 TYPE uname,
-         user_id3 TYPE uname,
-         user_id4 TYPE uname,
-         user_id5 TYPE uname,
-       END OF ty_user.
+         user_id1 TYPE buname,
+         user_id2 TYPE buname,
+         user_id3 TYPE buname,
+         user_id4 TYPE buname,
+         user_id5 TYPE buname,
+       END OF ty_user,
+       BEGIN OF ty_users,
+         user_id TYPE buname,
+       END OF ty_users,
+       tt_users TYPE TABLE OF ty_users WITH EMPTY KEY.
 
-DATA(ls_user) = VALUE ty_user(
-    user_id1 = 'BHARAT'
-    user_id2 = 'ADMIN'
-    user_id4 = 'USER1'
-    user_id5 = 'USER2'
-    " user_id3 intentionally left empty
-).
+DATA(ls_user) = VALUE ty_user( user_id1 = 'USER1' user_id2 = 'USER2' user_id3 = '' user_id4 = 'USER4' user_id5 = 'USER5' ).
+ASSIGN ls_user TO FIELD-SYMBOL(<fs_user>).
+
+DATA(lt_users) = REDUCE tt_users( INIT _users TYPE tt_users
+                                  FOR comp IN cl_abap_struct_utilities=>filled_components( ls_user )
+                                  NEXT _users = VALUE #( BASE _users ( user_id = <fs_user>-(comp-name) ) ) ).
+
+"Other useful methods,
+" 1. cl_abap_struct_utilities=>filled_components_c( )
+" 2. cl_abap_struct_utilities=>filled_components_x( )
+
+"https://help.sap.com/doc/abapdocu_cp_index_htm/CLOUD/en-US/ABENCL_ABAP_STRUCT_UTILITIES.html
+"https://github.com/SAP-samples/abap-cheat-sheets/blob/main/22_Released_ABAP_Classes.md#information-about-non-initial-structure-components
 ```
-
-## Get Only Filled Components
-
-```abap
-DATA(lt_users) = REDUCE string_table(
-    INIT result = VALUE string_table( )
-    FOR comp IN cl_abap_struct_utilities=>filled_components( ls_user )
-    NEXT result = VALUE #( BASE result ( CONV string( comp-value->* ) ) )
-).
-
-" lt_users: [ BHARAT, ADMIN, USER1, USER2 ]
-" user_id3 is skipped — it was initial
-```
-
-## Related Methods
-
-| Method | Description |
-|---|---|
-| `filled_components()` | Returns non-initial components |
-| `filled_components_c()` | Case-sensitive variant |
-| `filled_components_x()` | Alternative processing option |
-
-## Practical Use
-
-Handy when building dynamic WHERE conditions, collecting agent lists, or processing any structure where only some fields will be populated at runtime.

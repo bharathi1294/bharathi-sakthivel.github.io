@@ -1,89 +1,91 @@
 ---
-title: "RAP: Hide/Show Fields Immediately Based on Another Field Value"
+title: "Hide Fields Based on Other Field Value Immediately"
 date: 2026-03-02 08:00:00 +0530
 categories: [ABAP RAP]
-tags: [rap, abap, cds, dynamic-ui, hide-fields, determination, side-effects, field-control]
+tags: [rap, abap, field-control]
 ---
 
-Show or hide a field the **moment** the user changes a related field — no page refresh, no save required.
-
-## Scenario
-
-When `EmployeeType` changes to `'FT'` (Full Time), show `MobileNumber`. For `'PT'` (Part Time), hide it.
-
-## Step 1: CDS — Derived Boolean Field
-
 ```abap
-define view entity ZR_Employee
-  as select from zemp_table
-{
-  key emp_id,
-  employee_type,
-  mobile_number,
+*Use Case: Dynamically Hide Fields Based on EmployeeType Immediately Upon Change*
 
-  " Derived boolean: true when Full Time
-  case employee_type
+"Step 1: Add a Derived Field in the Root Entity ZR_SB_EMP_DATA
+
+define root view entity ZR_SB_EMP_DATA
+  as select from zsb_emp_data as EmployeeData
+{
+  ...,
+  EmployeeType,
+  case EmployeeType
     when 'FT' then cast( 'X' as abap_boolean preserving type )
-    else            cast( '' as abap_boolean preserving type )
+    else cast( ''  as abap_boolean preserving type )
   end as IsFullTimeEmployee
 }
-```
 
-## Step 2: Projection View — Expose with @UI.hidden
+"This derived field IsFullTimeEmployee is used to control visibility logic based on EmployeeType.
 
-```abap
-define view entity ZC_Employee
-  as projection on ZR_Employee
+"Step 2: Expose the Field in Your Projection View
+
+define root view entity ZC_SB_EMP_DATA
+  provider contract transactional_query
+  as projection on ZR_SB_EMP_DATA
 {
-  key emp_id,
-  employee_type,
-
-  @UI.hidden: #( IsFullTimeEmployee )   " hide when false
-  mobile_number,
-
+  ...,
+  EmployeeType,
   IsFullTimeEmployee
 }
-```
 
-## Step 3: Behavior Definition — Side Effect
+"Step 3: Apply the Visibility Annotation to Your Target Field. Use the @UI.hidden annotation to conditionally hide the field (e.g., MobileNumber) based on IsFullTimeEmployee.
 
-```abap
-define behavior for ZR_Employee
+annotate view ZC_SB_EMP_DATA with
 {
-  determination setVisibility on modify { field EmployeeType; }
-
-  side effects {
-    field EmployeeType affects field IsFullTimeEmployee;
-  }
+  ...,
+  @UI.hidden: #( IsFullTimeEmployee )
+  MobileNumber;
 }
-```
 
-## Step 4: Determination Implementation
+"Step 4: Add a Determination in the Root BDEF to Recalculate the Boolean Field on Change, Also declare a side effect to notify the UI of the dependent field update.
 
-```abap
+define behavior for ZR_SB_EMP_DATA alias EmployeeData
+...
+{
+  ...
+  determination setVisibility on modify { field EmployeeType; }
+  side effects { field EmployeeType affects field IsFullTimeEmployee; }
+}
+
+"Step 5: Implement the Determination Logic to Update IsFullTimeEmployee immediately when EmployeeType changes.
+
 METHOD setVisibility.
-  READ ENTITIES OF ZR_Employee IN LOCAL MODE
-    ENTITY Employee
+  DATA: lt_update TYPE TABLE FOR UPDATE zr_sb_emp_data.
+
+  READ ENTITIES OF zr_sb_emp_data IN LOCAL MODE
+    ENTITY EmployeeData
     FIELDS ( EmployeeType )
     WITH CORRESPONDING #( keys )
-    RESULT DATA(lt_emp).
+    RESULT DATA(lt_employee_data).
 
-  MODIFY ENTITIES OF ZR_Employee IN LOCAL MODE
-    ENTITY Employee
-    UPDATE FIELDS ( IsFullTimeEmployee )
-    WITH VALUE #(
-      FOR emp IN lt_emp
-      ( %key             = emp-%key
-        IsFullTimeEmployee = xsdbool( emp-EmployeeType = 'FT' ) )
-    ).
+  lt_update = VALUE #( FOR ls_employee IN lt_employee_data (
+    %tky = ls_employee-%tky
+    IsFullTimeEmployee = xsdbool( ls_employee-EmployeeType = 'FT' )
+    %control = VALUE #( IsFullTimeEmployee = if_abap_behv=>mk-on ) ) ).
+
+  MODIFY ENTITIES OF zr_sb_emp_data IN LOCAL MODE
+    ENTITY EmployeeData
+    UPDATE FROM lt_update
+    REPORTED DATA(lt_reported).
+
+  reported = CORRESPONDING #( DEEP lt_reported ).
 ENDMETHOD.
+  
+"Step 6: Enable Side Effects in the Projection BDEF
+
+use side effects;
+define behavior for ZC_SB_EMP_DATA alias EmployeeData
+{
+  ...
+}
+
+"Step 7: That’s it! Now, the field (e.g., MobileNumber) will be shown or hidden immediately based on the selected EmployeeType value without requiring a page reload.
+"PT - Part Time Employee
+"FT - Full Time Employee
 ```
-
-## Result
-
-| User types `EmployeeType` | `MobileNumber` |
-|---|---|
-| `FT` | Immediately visible |
-| `PT` | Immediately hidden |
-
-The side effect triggers the UI to re-read `IsFullTimeEmployee` after the determination runs — the field appears or disappears without any navigation or page reload.

@@ -1,67 +1,45 @@
 ---
-title: "ABAP: SEGMENT Function — Split Strings by Delimiter"
+title: "segment function"
 date: 2026-01-19 08:00:00 +0530
 categories: [ABAP New Syntax]
-tags: [abap, segment, string, split, new-syntax]
+tags: [abap, segment, string]
 ---
 
-The `segment()` function extracts a specific part of a string based on a delimiter — without needing `SPLIT INTO TABLE` followed by a READ.
-
-## Parameters
-
-| Parameter | Description |
-|---|---|
-| `val` | Input string |
-| `index` | Position (1 = first, -1 = last) |
-| `sep` | Substring delimiter |
-| `space` | Individual characters each treated as a delimiter |
-
-## Examples with `sep`
-
 ```abap
-" Get first segment
-DATA(lv_first) = segment( val = 'Hallo,world,123' index = 1 sep = ',' ).
-" Result: Hallo
+"Segment - This function returns the occurrence of a segment of the argument text specified by index
 
-" Get last segment (negative index)
-DATA(lv_last) = segment( val = 'Hallo,world,123' index = -1 sep = ',' ).
-" Result: 123
+"index: Number of segment
+"sep: Substring specified is searched and used as limit
+"Hallo
+DATA(segment1) = segment( val = `Hallo,world,123` index = 1 sep = `,` ). 
 
-" Get second segment
-DATA(lv_mid) = segment( val = 'Hallo,world,123' index = 2 sep = ',' ).
-" Result: world
-```
+"123
+DATA(segment2) = segment( val = `Hallo,world,123` index = -1 sep = `,` ). 
 
-## Multi-character Delimiter
+"world
+DATA(segment3) = segment( val = `Hallo<br>world<br>123` index = 2 sep = `<br>` ). 
 
-```abap
-DATA(lv_part) = segment( val = 'Hallo<br>world<br>123' index = 2 sep = '<br>' ).
-" Result: world
-```
+"space: Each individual character is searched and used as limit
+DATA(to_be_segmented) = `a/b#c d.e`.
 
-## Multiple Single-char Delimiters with `space`
+"b
+DATA(segment4) = segment( val = `a/b#c d.e` index = 2 space = `. #/` ). 
 
-```abap
-" Any of: . # / or space acts as delimiter
-DATA(lv_b) = segment( val = 'a/b#c d.e' index = 2 space = '. #/' ).
-" Result: b
-```
-
-## Loop Through All Segments
-
-```abap
-DATA lt_parts TYPE string_table.
-DATA(lv_idx) = 1.
-
+DATA segment_tab TYPE string_table.
 DO.
   TRY.
-    APPEND segment( val = 'a,b,c,d,e' index = lv_idx sep = ',' ) TO lt_parts.
-    lv_idx += 1.
-  CATCH cx_sy_strg_par_val.
-    EXIT.
+      INSERT segment( val   = to_be_segmented
+                      index = sy-index
+                      space = `. #/` ) INTO TABLE segment_tab.
+    CATCH cx_sy_strg_par_val.
+      EXIT.
   ENDTRY.
 ENDDO.
-" lt_parts: [ a, b, c, d, e ]
-```
 
-Cleaner than `SPLIT` when you need just one specific segment.
+*Content of segment_tab
+*a           
+*b           
+*c           
+*d           
+*e      
+```

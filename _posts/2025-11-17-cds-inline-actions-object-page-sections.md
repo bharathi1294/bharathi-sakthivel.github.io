@@ -1,53 +1,33 @@
 ---
-title: "CDS: Add Inline Actions Inside Object Page Sections"
+title: "𝗔𝗰𝘁𝗶𝗼𝗻𝘀/𝗜𝗻𝗹𝗶𝗻𝗲 𝗔𝗰𝘁𝗶𝗼𝗻𝘀 𝗶𝗻 𝗢𝗯𝗷𝗲𝗰𝘁 𝗣𝗮𝗴𝗲 𝗦𝗲𝗰𝘁𝗶𝗼𝗻𝘀"
 date: 2025-11-17 08:00:00 +0530
 categories: [CDS]
-tags: [cds, fiori, rap, actions, object-page, annotations, inline]
+tags: [cds, abap, annotations, fiori]
 ---
 
-Normally, actions appear in the **page header toolbar**. But sometimes an action is only relevant to a specific section. With the `inline: true` property, you can place it directly inside a section.
+Have you ever faced a scenario where you wanted to add RAP actions specific to a section of the Object Page,not the entire page? If yes, this is for you!
 
-> Available from **SAP S/4HANA 2023** and latest Public Cloud versions.
+You can achieve this by leveraging `@𝗨𝗜.𝗳𝗮𝗰𝗲𝘁` and `@𝗨𝗜.𝗳𝗶𝗲𝗹𝗱𝗚𝗿𝗼𝘂𝗽` annotations. It’s also possible to add inline actions using the 𝗶𝗻𝗹𝗶𝗻𝗲: 𝘁𝗿𝘂𝗲 property( available from SAP S/4HANA 2023 and in the latest public cloud versions).
 
-## Step 1: Define a Field Group with the Action
+Use Case Example: A colleague recently had a requirement to add a section-specific action to reset certain data, placing the action inside the relevant section made the UX cleaner and more intuitive.
 
-```abap
-@UI.fieldGroup: [
-  {
-    qualifier:    'GeneralInfoGroup',
-    position:     10,
-    type:         #FOR_ACTION,
-    dataAction:   'resetData',
-    label:        'Reset to Default',
-    emphasized:   true,
-    inline:       true
-  }
-]
-SomeField;
-```
+`@UI.facet: [ {`\
+ `label: 'General Information',`\
+ `id: 'GeneralInfo',`\
+ `purpose: #STANDARD,`\
+ `position: 10 ,`\
+ `type: #FIELDGROUP_REFERENCE,`\
+ `targetQualifier: 'generalInfo'`\
+ `} ]`
 
-## Step 2: Reference the Field Group in a Facet
+ `@UI.fieldGroup: [{`\
+ `qualifier: 'generalInfo',`\
+ `type: #FOR_ACTION,`\
+ `position: 10,`\
+ `dataAction: 'formAction',`\
+ `inline: true,` //Action will be placed inside the section\
+ `label: 'Reset Data(Form Action)',`\
+ `emphasized: true }]`\
+ `element;`
 
-```abap
-@UI.facet: [
-  {
-    id:             'GeneralInfo',
-    type:           #FIELDGROUP_REFERENCE,
-    label:          'General Information',
-    position:       10,
-    targetQualifier: 'GeneralInfoGroup'
-  }
-]
-```
-
-## Result
-
-The **"Reset to Default"** button appears directly inside the "General Information" section — not in the header toolbar. This keeps the UI contextual and avoids toolbar clutter.
-
-## Comparison
-
-| Header Toolbar Action | Inline Section Action |
-|---|---|
-| Always visible on the page | Only visible in its section |
-| Good for page-level operations | Good for section-specific operations |
-| `@UI.identification` / `@UI.lineItem` | `@UI.fieldGroup` with `inline: true` |
+![Inline_Actions_in_Object_Page_Sections ](../src/images/Inline_Actions_in_Object_Page_Sections.gif)

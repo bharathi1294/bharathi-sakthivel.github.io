@@ -1,79 +1,56 @@
 ---
-title: "ABAP String Templates — All Formatting Options"
+title: "string templates"
 date: 2025-09-22 08:00:00 +0530
 categories: [ABAP New Syntax]
-tags: [abap, string-templates, formatting, new-syntax]
+tags: [abap, string-templates]
 ---
 
-String templates in ABAP (`|...|`) are much more powerful than simple concatenation. They support rich formatting options directly inline.
-
-## Syntax
-
 ```abap
-lv_result = |{ variable OPTION }|.
+"String Templates
+"ALPHA(IN/OUT)
+DATA(lv_vbeln) = CONV vbeln( '1' ).
+lv_vbeln = |{ lv_vbeln ALPHA = IN }|. "-> 0000000001
+lv_vbeln = |{ lv_vbeln ALPHA = OUT }|. "-> 1
+
+"WIDTH
+DATA(lv_vbeln_with_extra_zeros) = |{ lv_vbeln ALPHA = IN WIDTH = 15 }|. "->000000000000001
+
+"CURRENCY
+DATA(lv_amount) = 123456.
+DATA(lv_inr) = |{ lv_amount CURRENCY = 'INR' }|. "1234.56
+DATA(lv_omr) = |{ lv_amount CURRENCY = 'OMR' }|. "123.456
+
+"NUMBER
+DATA(lv_number) = 12345678.
+DATA(lv_user_specific) = |{ lv_number NUMBER = USER }|. "12.345.678
+SET COUNTRY 'US'.
+DATA(lv_env) = |{ lv_number NUMBER = ENVIRONMENT }|. "12,345,678
+
+"DATE -> Same we have for TIME,TIMESTAMP
+DATA(lv_date) = sy-datum.
+DATA(lv_user_date) = |{ lv_date DATE = USER }|. "20.01.2025
+DATA(lv_iso_date) = |{ lv_date DATE = ISO }|. "2025-01-20
+
+"DECIMAL
+DATA(lv_decimal) = CONV f( `1234.456877` ).
+DATA(lv_3_decimal) = |{ lv_decimal DECIMALS = 3 }|. "1234.457
+
+"CASE
+DATA(lv_name) = `Bharathi S`.
+DATA(lv_uppercase) = |{ lv_name CASE = UPPER }|. "BHARATHI S"
+DATA(lv_lowercase) = |{ lv_name CASE = LOWER }|. "bharathi s"
+
+"SIGN
+DATA(lv_sign) = 123.
+DATA(lv_plus_sign) = |{ lv_sign SIGN = LEFTPLUS }|. "+123
+DATA(lv_right_plus_sign) = |{ lv_sign SIGN = RIGHTPLUS }|. "123+
+
+"ALIGN
+DATA(lv_text) = '1'.
+DATA(lv_align_right) = |{ lv_text ALIGN = RIGHT WIDTH = 5 }|."    1
+
+"PAD
+DATA(lv_pad) = |{ lv_text ALIGN = RIGHT WIDTH = 5 PAD = '_' }|."____1
+
+"https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/index.htm?file=abapcompute_string_format_options.htm
 ```
-
-## ALPHA — Leading Zeros
-
-```abap
-lv_out = |{ '42' ALPHA = IN  WIDTH = 10 }|.  " 0000000042
-lv_out = |{ '0000000042' ALPHA = OUT }|.       " 42
-```
-
-## WIDTH — Padding
-
-```abap
-lv_out = |{ 'ABC' WIDTH = 10 ALIGN = RIGHT PAD = '0' }|.  " 0000000ABC
-lv_out = |{ 'ABC' WIDTH = 10 ALIGN = LEFT  PAD = '-' }|.  " ABC-------
-```
-
-## NUMBER — Thousand Separators
-
-```abap
-lv_out = |{ 1234567 NUMBER = USER }|.        " 1,234,567 (locale-based)
-lv_out = |{ 1234567 NUMBER = ENVIRONMENT }|. " system locale
-```
-
-## CURRENCY — Currency Formatting
-
-```abap
-lv_out = |{ '1234.5' CURRENCY = 'INR' }|.  " 1,234.50  (2 decimals)
-lv_out = |{ '1234.5' CURRENCY = 'OMR' }|.  " 1,234.500 (3 decimals)
-```
-
-## DATE / TIME / TIMESTAMP
-
-```abap
-lv_out = |{ sy-datum DATE = USER }|.         " locale date format
-lv_out = |{ sy-datum DATE = ISO  }|.         " YYYY-MM-DD
-lv_out = |{ sy-uzeit TIME = USER }|.         " locale time format
-lv_out = |{ lv_ts    TIMESTAMP = ISO }|.     " ISO 8601
-```
-
-## DECIMALS — Round to N Places
-
-```abap
-lv_out = |{ '3.14159' DECIMALS = 2 }|.  " 3.14
-```
-
-## CASE
-
-```abap
-lv_out = |{ 'hello world' CASE = UPPER }|.  " HELLO WORLD
-lv_out = |{ 'HELLO WORLD' CASE = LOWER }|.  " hello world
-```
-
-## SIGN — +/- Positioning
-
-```abap
-lv_out = |{ 42  SIGN = LEFTPLUS  }|.  " +42
-lv_out = |{ -42 SIGN = RIGHTPLUS }|.  " 42-
-```
-
-## Combining Options
-
-```abap
-lv_out = |{ lv_amount CURRENCY = 'EUR' NUMBER = USER WIDTH = 15 ALIGN = RIGHT }|.
-```
-
-String templates keep your code clean — no more `CONCATENATE`, no more `WRITE TO`.

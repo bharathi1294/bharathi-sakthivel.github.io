@@ -1,81 +1,76 @@
 ---
-title: "RAP: Show Optional Fields in the Create Popup"
+title: "Show Fields in the Create Popup as Optional in RAP"
 date: 2026-03-16 08:00:00 +0530
 categories: [ABAP RAP]
-tags: [rap, abap, fiori, create-popup, optional-fields, determination]
+tags: [rap, abap, create-popup, optional-fields]
 ---
 
-By default, Fiori Elements only shows mandatory fields in the create dialog. If you need optional fields there too, use **temporary display fields** backed by a determination.
-
-## Scenario
-
-Create popup should show: `Id` (required) + `FirstName` (optional) + `LastName` (optional).
-
-## Step 1: Add Display Fields to the Entity
-
 ```abap
-" In your DB table or extension — display-only staging fields
-fname_d : first_name_d;
-lname_d : last_name_d;
-```
+"Show Fields in the Create Popup as Optional in RAP
+"Step 1 : Add temporary fields to show in the create popup. These will later be copied to the actual fields.
+define root view entity ZR_ROOT_ENTITY as select from zcustomer {
+  key id as Id,
+  fname as Fname,
+  lname as Lname,
 
-## Step 2: Projection View — Annotate Display Fields
+  @EndUserText.label: 'First Name'
+  $projection.Fname as Fname_D,
 
-```abap
-@Consumption.filter.hidden: true
-@UI.lineItem: [{ hidden: true }]
-@UI.identification: [{ position: 20, label: 'First Name' }]
-FnameD;
+  @EndUserText.label: 'Last Name'
+  $projection.Lname as Lname_D
+}
 
-@Consumption.filter.hidden: true
-@UI.lineItem: [{ hidden: true }]
-@UI.identification: [{ position: 30, label: 'Last Name' }]
-LnameD;
-```
+"Step 2: If you have a projection (C_ view), include the temporary fields but hide them from filters and line items.
+define root view entity ZC_ROOT_ENTITY
+  provider contract transactional_query
+  as projection on ZR_ROOT_ENTITY {
+  key Id,
+  Fname,
+  Lname,
 
-- Hidden from list/filter — only visible in the create popup
-- `@UI.identification` makes them appear in the dialog
+  @Consumption.filter.hidden: true
+  @UI.lineItem: [{ hidden: true }]
+  Fname_D,
 
-## Step 3: Behavior Definition
+  @Consumption.filter.hidden: true
+  @UI.lineItem: [{ hidden: true }]
+  Lname_D
+}
 
-```abap
-define behavior for ZR_MyEntity
+"Step 3: Mark the temporary fields as read-only on update. Use a determination to copy their values to the actual fields on create.
+define behavior for ZR_ROOT_ENTITY
+...
 {
-  " Display fields are read-only on update (only for create)
-  field ( read only : update ) FnameD, LnameD;
+  field ( mandatory : create ) Id;
+
+  field ( readonly : update ) Fname_D, Lname_D;
 
   determination setNames on modify { create; }
 }
-```
 
-## Step 4: Determination — Copy to Real Fields
-
-```abap
+"Step 4: Copy temporary field values (Fname_D, Lname_D) to actual fields (Fname, Lname) during creation.
 METHOD setNames.
-  READ ENTITIES OF ZR_MyEntity IN LOCAL MODE
-    ENTITY MyEntity
-    FIELDS ( FnameD LnameD )
+  READ ENTITIES OF ZR_ROOT_ENTITY IN LOCAL MODE
+    ENTITY ZR_ROOT_ENTITY
+    FIELDS ( Fname_D Lname_D )
     WITH CORRESPONDING #( keys )
-    RESULT DATA(lt_entities).
+    RESULT DATA(lt_result).
 
-  MODIFY ENTITIES OF ZR_MyEntity IN LOCAL MODE
-    ENTITY MyEntity
-    UPDATE FIELDS ( Fname Lname )
-    WITH VALUE #(
-      FOR entity IN lt_entities
-      ( %key  = entity-%key
-        Fname = entity-FnameD
-        Lname = entity-LnameD )
-    ).
+  lt_update = VALUE #( FOR lw IN lt_result (
+    %tky = lw-%tky
+    Fname = lw-Fname_D
+    Lname = lw-Lname_D
+    %control = VALUE #( Fname = if_abap_behv=>mk-on
+                        Lname = if_abap_behv=>mk-on )
+  )).
+
+  MODIFY ENTITIES OF ZR_ROOT_ENTITY IN LOCAL MODE
+    ENTITY ZR_ROOT_ENTITY
+    UPDATE FROM lt_update
+    REPORTED DATA(ls_reported)
+    FAILED DATA(ls_failed).
 ENDMETHOD.
+
+"Step 5: Result On create, popup shows 3 fields: Id (required), Fname_D, and Lname_D (optional).
+"After creation, actual fields Fname and Lname are filled and can be edited on the object page.
 ```
-
-## Result
-
-| Create Dialog Shows | After Creation |
-|---|---|
-| Id (required) | Id stored |
-| First Name (optional) | Fname populated from FnameD |
-| Last Name (optional) | Lname populated from LnameD |
-
-The display fields (`FnameD`, `LnameD`) are hidden after creation — the real fields (`Fname`, `Lname`) are editable on the object page.

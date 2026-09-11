@@ -1,76 +1,40 @@
 ---
-title: "CDS: Color Code Line Items with Criticality Indicators"
+title: "Criticality"
 date: 2026-05-04 08:00:00 +0530
 categories: [CDS]
-tags: [cds, fiori, annotations, criticality, status, line-items, ui]
+tags: [cds, abap, criticality, annotations]
 ---
 
-Highlight rows in the Fiori List Report with color-coded status indicators using `@UI.lineItem` criticality annotations — no custom controller needed.
-
-## Step 1: Derive a Criticality Code in CDS
-
 ```abap
-define view entity ZR_Travel
-  as select from ztravel_table
+Highlight Line Items and Columns Based on Criticality
+"Step 1: Derive the CriticalityCode Based on OverallStatus
+define root view entity ZR_ROOT_ENTITY
 {
-  key travel_id,
-  overall_status,
-
-  case overall_status
-    when 'A' then 3   " 3 = Green  (Positive)
-    when 'X' then 1   " 1 = Red    (Critical)
-    when 'O' then 2   " 2 = Yellow (Warning)
-    else           0  " 0 = Grey   (Neutral)
-  end as CriticalityCode
+  ...
+  OverallStatus,
+  case $projection.OverallStatus
+           when 'A' then 3 // 3 - Green
+           when 'X' then 1 // 2 - Red
+           when 'O' then 2 // 1 - Yellow
+           else 0          // 0 - Neutral
+           end as CriticalityCode
 }
-```
-
-## Criticality Code Reference
-
-| Code | Color | Meaning |
-|---|---|---|
-| `0` | Grey | Neutral / No status |
-| `1` | Red | Critical / Error |
-| `2` | Yellow / Orange | Warning |
-| `3` | Green | Positive / OK |
-| `5` | Purple | New / Information |
-
-## Step 2: Expose in Projection View
-
-```abap
-define view entity ZC_Travel
-  as projection on ZR_Travel
+"Step 2: Expose CriticalityCode in the Projection View
+define root view entity ZC_ROOT_ENTITY
+  provider contract transactional_query
+  as projection on ZR_ROOT_ENTITY
 {
-  key travel_id,
-  overall_status,
+  ...
+  OverallStatus,
   CriticalityCode
 }
+"Step 3: Annotate in Metadata Extension
+@UI.lineItem: [{ criticality: 'CriticalityCode' }]
+annotate view ZC_ROOT_ENTITY with {
+  ....
+  @UI: { lineItem: [{position: 10, importance: #HIGH, criticality: 'CriticalityCode', criticalityRepresentation: #WITH_ICON }] }
+  OverallStatus;
+}
+
+"Step 4: That's it. see the result - src/images/Criticality_in_CDS.png
 ```
-
-## Step 3: Apply to Line Items via Metadata Extension
-
-```abap
-@UI.lineItem: [
-  {
-    position:                   10,
-    criticality:                'CriticalityCode',
-    criticalityRepresentation:  #WITH_ICON
-  }
-]
-TravelId;
-```
-
-## criticalityRepresentation Options
-
-| Value | Effect |
-|---|---|
-| `#WITH_ICON` | Shows colored icon alongside the value |
-| `#WITHOUT_ICON` | Colors only the cell background |
-| `#WITH_ICON_AND_TEXT` | Icon + colored text |
-
-## Result
-
-Each row in the List Report is highlighted based on `OverallStatus`:
-- Accepted (`A`) → green row / icon
-- Rejected (`X`) → red row / icon
-- Open (`O`) → yellow row / icon

@@ -1,63 +1,39 @@
 ---
-title: "RAP: Pre-fill Create Form Fields with Default Functions"
+title: "Default Function RAP"
 date: 2026-02-09 08:00:00 +0530
 categories: [ABAP RAP]
-tags: [rap, abap, fiori, default-function, create, bdef]
+tags: [rap, abap, default-function]
 ---
 
-When users open the create dialog in a Fiori app, fields are blank. A **default function** in RAP lets you pre-fill fields automatically — currency, date, status, or any business default.
-
-## Step 1: Behavior Definition
-
 ```abap
-define behavior for ZR_MyEntity
+"Step 1: Define a default function in your Behavior Definition (BDEF)
+define behavior for ZR_ROOT_ENTITY alias Travel
+....
 {
-  create {
-    default function GetDefaultsForCreate;
-  }
   ...
+  create{ default function GetDefaultsForCreate; }
+  
 }
-```
 
-## Step 2: Projection Behavior Definition
-
-```abap
-define behavior for ZC_MyEntity
-{
-  use function GetDefaultsForCreate;
-  ...
-}
-```
-
-## Step 3: Implementation
-
-```abap
+"Step 2: Implement the logic in the behavior class
 METHOD GetDefaultsForCreate.
-  result = VALUE #(
-    FOR key IN keys
-    (
-      %cid   = key-%cid
-      %param = VALUE #(
-        CurrencyCode = 'INR'
-        ValidFrom    = sy-datum
-        Status       = 'OPEN'
-      )
-    )
-  ).
+    result = VALUE #( FOR key IN keys (
+          %cid = key-%cid
+          %param = VALUE #( CurrencyCode = 'INR'
+                            BeginDate = cl_abap_context_info=>get_system_date( )
+                            OverallStatus = 'O' ) ) ).
 ENDMETHOD.
+
+"Step 3: Use the function in your Projection BDEF(If you defined)
+projection;
+strict(2);
+
+define behavior for ZC_ROOT_ENTITY alias Travel
+...
+{
+  ...
+  use function GetDefaultsForCreate;
+}
+
+"Step 4: That’s it! Now when you try to create a new record, the values will be pre-filled automatically 
 ```
-
-## How it Works
-
-- `keys` contains the `%cid` (client-side ID) for each new record being created
-- `%param` carries the default field values
-- The UI receives these defaults before the create dialog renders — fields appear pre-filled
-
-## Result
-
-When the user clicks **"New"**, the create dialog opens with:
-- **Currency Code** = INR
-- **Valid From** = today's date
-- **Status** = OPEN
-
-No determination needed — defaults are set before the record even exists in the draft.

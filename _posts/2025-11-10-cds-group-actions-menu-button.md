@@ -1,61 +1,29 @@
 ---
-title: "CDS: Group Multiple Actions into a Menu Button with #FOR_ACTION_GROUP"
+title: "Grouping Actions as Menu Button using Annotations"
 date: 2025-11-10 08:00:00 +0530
 categories: [CDS]
-tags: [cds, fiori, rap, actions, annotations, menu-button]
+tags: [cds, abap, annotations, fiori]
 ---
 
-When you have multiple related actions (e.g. "Accept" and "Reject"), showing them as separate buttons clutters the toolbar. Use `#FOR_ACTION_GROUP` to group them under a single **menu button**.
+While exploring, one annotation caught my eye: `#𝗙𝗢𝗥_𝗔𝗖𝗧𝗜𝗢𝗡_𝗚𝗥𝗢𝗨𝗣`. I looked into it further and found that it allows you to group multiple actions under a single menu! This is particularly helpful when you want to group actions either on the List Report or the Object Page.
 
-## Annotation
+For example, here I’ve grouped two actions (acceptTravel and rejectTravel) under a single menu labeled "Change Status":\
 
-```abap
-@UI.lineItem: [
-  {
-    type:          #FOR_ACTION_GROUP,
-    label:         'Change Status',
-    actionGroupId: 'menu-ChangeStatus',
-    position:      10
-  },
-  {
-    type:          #FOR_ACTION,
-    dataAction:    'acceptTravel',
-    label:         'Accept',
-    actionGroupId: 'menu-ChangeStatus'
-  },
-  {
-    type:          #FOR_ACTION,
-    dataAction:    'rejectTravel',
-    label:         'Reject',
-    actionGroupId: 'menu-ChangeStatus'
-  }
-]
-TravelStatus;
-```
+`@𝗨𝗜: {`\
+ `𝗹𝗶𝗻𝗲𝗜𝘁𝗲𝗺: [`\
+ `{ 𝗽𝗼𝘀𝗶𝘁𝗶𝗼𝗻: 𝟭𝟬, 𝗶𝗺𝗽𝗼𝗿𝘁𝗮𝗻𝗰𝗲: #𝗛𝗜𝗚𝗛 },`\
+ `{ 𝘁𝘆𝗽𝗲: #𝗙𝗢𝗥_𝗔𝗖𝗧𝗜𝗢𝗡_𝗚𝗥𝗢𝗨𝗣, 𝗹𝗮𝗯𝗲𝗹: '𝗖𝗵𝗮𝗻𝗴𝗲 𝗦𝘁𝗮𝘁𝘂𝘀', 𝗮𝗰𝘁𝗶𝗼𝗻𝗚𝗿𝗼𝘂𝗽𝗜𝗱: ``'𝗺𝗲𝗻𝘂-𝗖𝗵𝗮𝗻𝗴𝗲𝗦𝘁𝗮𝘁𝘂𝘀' },`\
+ `{ 𝘁𝘆𝗽𝗲: #𝗙𝗢𝗥_𝗔𝗖𝗧𝗜𝗢𝗡, 𝗱𝗮𝘁𝗮𝗔𝗰𝘁𝗶𝗼𝗻: '𝗮𝗰𝗰𝗲𝗽𝘁𝗧𝗿𝗮𝘃𝗲𝗹', 𝗹𝗮𝗯𝗲𝗹: '𝗔𝗰𝗰𝗲𝗽𝘁 ``𝗧𝗿𝗮𝘃𝗲𝗹', 𝗮𝗰𝘁𝗶𝗼𝗻𝗚𝗿𝗼𝘂𝗽𝗜𝗱: '𝗺𝗲𝗻𝘂-𝗖𝗵𝗮𝗻𝗴𝗲𝗦𝘁𝗮𝘁𝘂𝘀' },`\
+ `{ 𝘁𝘆𝗽𝗲: #𝗙𝗢𝗥_𝗔𝗖𝗧𝗜𝗢𝗡, 𝗱𝗮𝘁𝗮𝗔𝗰𝘁𝗶𝗼𝗻: '𝗿𝗲𝗷𝗲𝗰𝘁𝗧𝗿𝗮𝘃𝗲𝗹', 𝗹𝗮𝗯𝗲𝗹: '𝗥𝗲𝗷𝗲𝗰𝘁 ``𝗧𝗿𝗮𝘃𝗲𝗹', 𝗮𝗰𝘁𝗶𝗼𝗻𝗚𝗿𝗼𝘂𝗽𝗜𝗱: '𝗺𝗲𝗻𝘂-𝗖𝗵𝗮𝗻𝗴𝗲𝗦𝘁𝗮𝘁𝘂𝘀' }`\
+ `],`\
+ `𝗶𝗱𝗲𝗻𝘁𝗶𝗳𝗶𝗰𝗮𝘁𝗶𝗼𝗻: [`\
+ `{ 𝗽𝗼𝘀𝗶𝘁𝗶𝗼𝗻: 𝟭𝟬, 𝗹𝗮𝗯𝗲𝗹: '𝗧𝗿𝗮𝘃𝗲𝗹 𝗜𝗗' },`\
+ `{ 𝘁𝘆𝗽𝗲: #𝗙𝗢𝗥_𝗔𝗖𝗧𝗜𝗢𝗡_𝗚𝗥𝗢𝗨𝗣, 𝗹𝗮𝗯𝗲𝗹: '𝗖𝗵𝗮𝗻𝗴𝗲 𝗦𝘁𝗮𝘁𝘂𝘀', 𝗮𝗰𝘁𝗶𝗼𝗻𝗚𝗿𝗼𝘂𝗽𝗜𝗱: ``'𝗺𝗲𝗻𝘂-𝗖𝗵𝗮𝗻𝗴𝗲𝗦𝘁𝗮𝘁𝘂𝘀' },`\
+ `{ 𝘁𝘆𝗽𝗲: #𝗙𝗢𝗥_𝗔𝗖𝗧𝗜𝗢𝗡, 𝗱𝗮𝘁𝗮𝗔𝗰𝘁𝗶𝗼𝗻: '𝗮𝗰𝗰𝗲𝗽𝘁𝗧𝗿𝗮𝘃𝗲𝗹', 𝗹𝗮𝗯𝗲𝗹: '𝗔𝗰𝗰𝗲𝗽𝘁 ``𝗧𝗿𝗮𝘃𝗲𝗹', 𝗮𝗰𝘁𝗶𝗼𝗻𝗚𝗿𝗼𝘂𝗽𝗜𝗱: '𝗺𝗲𝗻𝘂-𝗖𝗵𝗮𝗻𝗴𝗲𝗦𝘁𝗮𝘁𝘂𝘀' },`\
+ `{ 𝘁𝘆𝗽𝗲: #𝗙𝗢𝗥_𝗔𝗖𝗧𝗜𝗢𝗡, 𝗱𝗮𝘁𝗮𝗔𝗰𝘁𝗶𝗼𝗻: '𝗿𝗲𝗷𝗲𝗰𝘁𝗧𝗿𝗮𝘃𝗲𝗹', 𝗹𝗮𝗯𝗲𝗹: '𝗥𝗲𝗷𝗲𝗰𝘁 ``𝗧𝗿𝗮𝘃𝗲𝗹', 𝗮𝗰𝘁𝗶𝗼𝗻𝗚𝗿𝗼𝘂𝗽𝗜𝗱: '𝗺𝗲𝗻𝘂-𝗖𝗵𝗮𝗻𝗴𝗲𝗦𝘁𝗮𝘁𝘂𝘀' }`\
+ `]`\
+`}`
 
-## How it Works
+Note: I tried this in SAP BTP, ABAP Environment, and it works great! I believe this should also be available in SAP S/4HANA Public Cloud Latest version. For Private Cloud availability, I’ll check and share more once I have the details.
 
-1. The entry with `type: #FOR_ACTION_GROUP` creates the **menu button container** with a label
-2. Each action entry with the same `actionGroupId` becomes a **menu item** inside it
-3. The `position` on the group entry controls where the menu button appears in the toolbar
-
-## Result
-
-Instead of:
-```
-[ Accept ]  [ Reject ]
-```
-
-You get:
-```
-[ Change Status ▼ ]
-  ├── Accept
-  └── Reject
-```
-
-## Works on Both
-
-- **List Report** toolbar (multi-select)
-- **Object Page** header toolbar
-
-> Tested on SAP BTP ABAP Environment and S/4HANA Public Cloud (latest version).
+![Grouping_Actions_as_Menu_Button_using_Annotations ](../src/images/Grouping_Actions_as_Menu_Button_using_Annotations.mp4)

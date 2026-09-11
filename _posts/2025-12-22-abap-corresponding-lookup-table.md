@@ -1,48 +1,49 @@
 ---
-title: "ABAP: CORRESPONDING Operator with Lookup Table"
+title: "Corresponding with lookup table"
 date: 2025-12-22 08:00:00 +0530
 categories: [ABAP New Syntax]
-tags: [abap, corresponding, lookup, internal-table, new-syntax]
+tags: [abap, corresponding, lookup]
 ---
 
-The `CORRESPONDING` operator can do more than just copy matching field names — it can enrich records by performing a **lookup on another internal table**.
-
-## Use Case
-
-You have an employee table without manager names. A separate manager table has that data. Merge them without a LOOP.
-
-## Old Way (with LOOP)
-
 ```abap
-LOOP AT lt_employees ASSIGNING FIELD-SYMBOL(<emp>).
-  READ TABLE lt_managers INTO DATA(ls_mgr)
-    WITH KEY manager_id = <emp>-manager_id.
-  IF sy-subrc = 0.
-    <emp>-manager_name = ls_mgr-name.
-  ENDIF.
-ENDLOOP.
+"𝗖𝗢𝗥𝗥𝗘𝗦𝗣𝗢𝗡𝗗𝗜𝗡𝗚 𝘄𝗶𝘁𝗵 𝗹𝗼𝗼𝗸𝘂𝗽 𝘁𝗮𝗯𝗹𝗲.
+"The CORRESPONDING operator can be used to create a new data object from a structured data object, such as an internal table or structure, by copying the values of fields with matching names. 
+"Additionally, the operator can perform a lookup on another internal table to populate specific field values.
+
+TYPES: BEGIN OF ty_employee,
+  emp_id       TYPE pernr_d,
+  emp_name     TYPE text100,
+  manager_id   TYPE pernr_d,
+  manager_name TYPE text100,
+  emp_position TYPE text100,
+END OF ty_employee,
+tt_employee TYPE TABLE OF ty_employee WITH EMPTY KEY,
+BEGIN OF ty_manager,
+  mgr_id   TYPE pernr_d,
+  mgr_name TYPE text100,
+END OF ty_manager.
+
+DATA lt_managers TYPE HASHED TABLE OF ty_manager WITH UNIQUE KEY mgr_id.
+DATA lt_employees TYPE tt_employee.
+DATA lt_emp_with_mgr_name TYPE tt_employee.
+
+"Employee data w/o manager name
+lt_employees = VALUE #( 
+  ( emp_id = '1' emp_name = 'Name 1' emp_position = 'DEV_1' manager_id = '1' )
+  ( emp_id = '2' emp_name = 'Name 2' emp_position = 'DEV_2' manager_id = '2' ) ).
+
+"Manager data - Lookup Table
+lt_managers = VALUE #( 
+  ( mgr_id = '1' mgr_name = 'Manager 1' )
+  ( mgr_id = '2' mgr_name = 'Manager 2' ) ).
+
+"Employee data with manager name from lookup table
+lt_emp_with_mgr_name = CORRESPONDING #( lt_employees 
+  FROM lt_managers USING manager_id 
+  MAPPING manager_name = mgr_name ).
+
+"Output
+"EMP_ID   EMP_NAME  MANAGER_ID  MANAGER_NAME  EMP_POSITION
+"00000001 Name 1    00000001    Manager 1     DEV_1
+"00000002 Name 2    00000002    Manager 2     DEV_2
 ```
-
-## New Way (CORRESPONDING with lookup)
-
-```abap
-lt_employees = CORRESPONDING #(
-    lt_employees
-    FROM lt_managers
-    USING manager_id = manager_id
-    MAPPING manager_name = name
-).
-```
-
-- `FROM` — the lookup source table
-- `USING` — the join key (employee's `manager_id` = manager's `manager_id`)
-- `MAPPING` — how to map the looked-up field into the target structure
-
-## Result
-
-Each employee record gets its `manager_name` populated from the manager table — no loop, no READ TABLE, one expression.
-
-## Notes
-
-- Non-matching entries remain as-is (no error, field stays initial)
-- Works with `BASE` to preserve existing values: `CORRESPONDING #( BASE ( ls_emp ) ... )`

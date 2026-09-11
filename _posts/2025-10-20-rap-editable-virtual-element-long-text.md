@@ -1,118 +1,236 @@
 ---
-title: "RAP: Editable Virtual Elements for SAP Long Text"
+title: "Editable Virtual Elements: Reading and Saving Long Text"
 date: 2025-10-20 08:00:00 +0530
 categories: [ABAP RAP]
-tags: [rap, abap, virtual-element, long-text, save-modified, augment]
+tags: [rap, abap, virtual-element, long-text]
 ---
 
-SAP Long Text (`READ_TEXT` / `SAVE_TEXT`) can't be stored directly in RAP database tables. The solution is an **editable virtual element** backed by a staging field.
+This guide demonstrates how to implement an **editable virtual element** in RAP to read and save SAP long texts using the `READ_TEXT` and `SAVE_TEXT` function modules.
 
-## Architecture
+## Overview
+| Field | Layer | Purpose |
+| --- | --- | --- |
+| `LongText` | Base (R) View | Staging field that temporarily stores the value mapped from the virtual element through the augment implementation |
+| `VirtualLongText` | Projection (C) View | Editable virtual element that reads the SAP long text at runtime using `ZCL_READ_LONG_TEXT` |
 
-```
-UI Input → Virtual Element (VirtualLongText)
-         → Staging Field (LongText, max 1333 chars) in draft
-         → save_modified → SAVE_TEXT function module
-         → RAP commit → GET refresh → display updated text
-```
+## Step 1: Add a Staging Field to the Base View Entity
 
-## Step 1: Base CDS View — Staging Field
+Add a staging field to the root view entity. This field stores the value copied from the virtual element during the augment phase.
+
+> **Note:** The maximum supported length for a CDS character field is **1,333 characters**.
 
 ```abap
-define view entity ZR_MyEntity
-  as select from zmy_table
+define root view entity ZR_RootEntity
+  as select from ztable
 {
-  key id,
-  @EndUserText.label: 'Long Text (staging)'
-  long_text          -- max 1333 chars in DB table
+  ...
+  cast( '' as abap.char( 1333 ) ) as LongText
 }
 ```
 
-## Step 2: Projection View — Virtual Element
+## Step 2: Add a Virtual Element to the Projection View
+
+Define a virtual element in the projection view and associate it with the virtual element calculation class. Hide the staging field from the UI since it is only used internally.
 
 ```abap
-define view entity ZC_MyEntity
-  as projection on ZR_MyEntity
+define root view entity ZC_RootEntity
+  provider contract transactional_query
+  as projection on ZR_RootEntity
 {
-  key id,
+  ...
 
+  @ObjectModel.virtualElement: true
   @ObjectModel.virtualElementCalculatedBy: 'ABAP:ZCL_READ_LONG_TEXT'
-  @EndUserText.label: 'Long Text'
-  virtual VirtualLongText : abap.char( 1333 )
+  @UI.multiLineText: true
+  virtual VirtualLongText : abap.char( 1333 ),
+
+  @UI.hidden: true
+  LongText
 }
 ```
 
-## Step 3: Read Class — ZCL_READ_LONG_TEXT
+## Step 3: Implement the Virtual Element Calculation Class
+
+Implement the calculation class to read the SAP long text using the `READ_TEXT` function module and populate the virtual element.
+
+For more information about virtual elements, refer to the SAP documentation:
+https://help.sap.com/docs/ABAP_PLATFORM_NEW/fc4c71aa50014fd1b43721701471913d/319380e0cef94051ae9aa292ffadb59a.html
 
 ```abap
-METHOD if_sadl_exit_calc_element_read~calculate.
-  LOOP AT it_original_data ASSIGNING FIELD-SYMBOL(<entity>).
-    CALL FUNCTION 'READ_TEXT'
-      EXPORTING
-        id     = 'ST'
-        language = sy-langu
-        name   = <entity>-id
-        object = 'ZMY_OBJ'
-      TABLES
-        lines  = DATA(lt_lines).
+CLASS ZCL_READ_LONG_TEXT DEFINITION
+  PUBLIC
+  FINAL
+  CREATE PUBLIC.
 
-    <entity>-VirtualLongText = concat_lines_of(
-        table = lt_lines sep = cl_abap_char_utilities=>newline ).
+  PUBLIC SECTION.
+    INTERFACES if_sadl_exit.
+    INTERFACES if_sadl_exit_calc_element_read.
+ENDCLASS.
+
+CLASS ZCL_READ_LONG_TEXT IMPLEMENTATION.
+
+  METHOD if_sadl_exit_calc_element_read~calculate.
+
+    DATA entities TYPE TABLE OF ZC_RootEntity.
+
+    entities = CORRESPONDING #( it_original_data ).
+
+    LOOP AT entities ASSIGNING FIELD-SYMBOL(<entity>).
+
+      DATA(lv_longtext) = VALUE string( ).
+
+      CALL FUNCTION 'READ_TEXT'
+        EXPORTING
+          " Pass the required key fields
+          ...
+        IMPORTING
+          ...
+        EXCEPTIONS
+          ...
+
+      <entity>-VirtualLongText = lv_longtext.
+
+    ENDLOOP.
+
+    ct_calculated_data = CORRESPONDING #( entities ).
+
+  ENDMETHOD.
+
+  METHOD if_sadl_exit_calc_element_read~get_calculation_info.
+  ENDMETHOD.
+
+ENDCLASS.
+```
+
+## Step 4: Configure the Projection Behavior Definition
+
+Register the projection implementation class and enable `augment` for both **create** and **update** operations.
+
+Declaring the virtual field as `field ( modify )` has two purposes:
+
+- Makes the virtual element editable in the UI.
+- Ensures the field value is available in the projection BIL class. Without this declaration, the value of `VirtualLongText` is not passed to the `augment_create` and `augment_update` methods.
+
+For more information about augmentation, refer to the SAP documentation:
+https://help.sap.com/docs/ABAP_PLATFORM_NEW/fc4c71aa50014fd1b43721701471913d/346c2b7516ce4176bbb4daebaa80c2ca.html
+
+```abap
+projection implementation in class ZBP_C_RootEntity unique;
+strict ( 2 );
+use draft;
+
+define behavior for ZC_RootEntity alias ZcRootEntity
+use etag
+{
+  use create ( augment );
+  use update ( augment );
+  use delete;
+
+  ...
+
+  field ( modify ) VirtualLongText;
+
+  ...
+}
+```
+
+## Step 5: Map the Virtual Element to the Staging Field
+
+Inside the projection BIL class, copy the value from `VirtualLongText` to `LongText` in the `augment_update` method. This allows the value to be stored in the RAP draft table and passed to the base BO during save.
+
+```abap
+METHOD augment_update.
+
+  DATA lt_update TYPE TABLE FOR UPDATE ZR_RootEntity.
+
+  LOOP AT entities ASSIGNING FIELD-SYMBOL(<fs_entity>).
+
+    APPEND VALUE #(
+      %cid_ref          = <fs_entity>-%cid_ref
+      %key              = CORRESPONDING #( <fs_entity>-%key )
+      %is_draft         = <fs_entity>-%is_draft
+      LongText          = <fs_entity>-VirtualLongText
+      %control-LongText = if_abap_behv=>mk-on
+    ) TO lt_update.
+
   ENDLOOP.
+
+  MODIFY AUGMENTING ENTITY ZR_RootEntity
+    UPDATE FROM lt_update.
+
 ENDMETHOD.
 ```
+## Step 6: Enable Additional Save
 
-## Step 4: Behavior Definition
+Enable **additional save** in the base behavior definition so that RAP invokes the `save_modified` method during the save sequence.
 
 ```abap
-define behavior for ZR_MyEntity
-{
-  with additional save
-  ...
-}
+managed with additional save implementation in class ZBP_R_RootEntity unique;
 
-define behavior for ZC_MyEntity
+define behavior for ZR_RootEntity alias R_RootEntity
 {
-  augment;
   ...
 }
 ```
 
-## Step 5: Augment Methods — Map Virtual ↔ Staging
+## Step 7: Save the Long Text
 
-```abap
-" In projection behavior handler
-METHOD augment_create.
-  MODIFY ENTITIES OF ZR_MyEntity
-    ENTITY MyEntity
-    UPDATE FIELDS ( long_text )
-    WITH VALUE #(
-      FOR entity IN entities
-      ( %key      = entity-%key
-        long_text = entity-VirtualLongText )
-    ).
-ENDMETHOD.
-```
-
-## Step 6: save_modified — Call SAVE_TEXT
+In `save_modified`, read the value from `LongText` and pass it to the `SAVE_TEXT` function module.
 
 ```abap
 METHOD save_modified.
-  LOOP AT update-myentity ASSIGNING FIELD-SYMBOL(<entity>).
-    CHECK <entity>-%control-long_text = if_abap_behv=>mk-on.
+  LOOP AT create-R_RootEntity ASSIGNING FIELD-SYMBOL(<entity>).
+    DATA(lv_long_text) = <entity>-LongText.
 
     CALL FUNCTION 'SAVE_TEXT'
       EXPORTING
-        header = VALUE thead(
-          tdid    = 'ST'
-          tdspras = sy-langu
-          tdname  = <entity>-id
-          tdobject = 'ZMY_OBJ' )
-      TABLES
-        lines = " build from <entity>-long_text
-      EXCEPTIONS OTHERS = 4.
+        " Pass the relevant parameters here
+        ...
+      EXCEPTIONS
+        ...
+  ENDLOOP.
+
+  LOOP AT update-R_RootEntity ASSIGNING FIELD-SYMBOL(<entity>).
+    DATA(lv_long_text) = <entity>-LongText.
+
+    CALL FUNCTION 'SAVE_TEXT'
+      EXPORTING
+        " Pass the relevant parameters here
+        ...
+      EXCEPTIONS
+        ...
   ENDLOOP.
 ENDMETHOD.
 ```
 
-No explicit `COMMIT WORK` needed — RAP handles the commit automatically, then triggers a GET to refresh the display.
+## Step 8: No Explicit Commit Is Required
+
+No explicit `COMMIT WORK` is required.
+
+After `save_modified` completes successfully, the RAP framework automatically performs the database commit. The framework then issues a **GET** request, which triggers the virtual element calculation class again. As a result, the updated long text is read from SAPscript and displayed immediately in the UI.
+
+## Flow Summary
+
+```text
+UI
+ ↓
+VirtualLongText (Virtual Element)
+ ↓
+augment_create / augment_update
+ ↓
+LongText (Staging Field)
+ ↓
+Draft Table
+ ↓
+save_modified
+ ↓
+SAVE_TEXT
+ ↓
+Implicit RAP Commit
+ ↓
+GET Request
+ ↓
+READ_TEXT
+ ↓
+VirtualLongText Updated in UI
+```

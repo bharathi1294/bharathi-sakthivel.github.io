@@ -1,69 +1,39 @@
 ---
-title: "ABAP SQL: STRING_AGG — Concatenate Rows into a Single String"
+title: "STRING AGG Function"
 date: 2026-04-06 08:00:00 +0530
 categories: [ABAP SQL]
-tags: [abap, sql, string-agg, aggregation, group-by]
+tags: [abap, sql, string-agg]
 ---
 
-`STRING_AGG` concatenates values from multiple rows into a single delimited string — perfect for generating readable summaries from normalized tables.
-
-## Syntax
-
 ```abap
-STRING_AGG( column_name, 'delimiter' )
+*In ABAP, the STRING_AGG function is used to concatenate values from multiple rows into a single string, with a specified delimiter.
+*Here is a small example, this table have a customer id and course name, want to aggregate all course name for each customer id into a single string, separated by commas. 
+*this can be easily achieved through STRING_AGG function.
+*Note: STRING_AGG concatenates the results of an SQL expression in one line (type SSTRING, length 1333). 
+*If the string is longer than 1333 characters, an exception (CX_SY_OPEN_SQL_DB) is thrown. 
+*The limitation to 1333 characters can be bypassed by the function TO_CLOB. This is available in ABAP SQL from ABAP 7.54+.
+
+TYPES: BEGIN OF ty_employee,
+  employee_id TYPE pernr_d,
+  course_name TYPE text100,
+END OF ty_employee,
+tt_employee TYPE TABLE OF ty_employee WITH EMPTY KEY.
+
+DATA(lt_employees) = VALUE tt_employee( 
+  ( employee_id = '1' course_name = 'ABAP' )
+  ( employee_id = '1' course_name = 'UI5' )
+  ( employee_id = '1' course_name = 'Fiori' )
+  ( employee_id = '2' course_name = 'ABAP' )
+  ( employee_id = '2' course_name = 'UI5' ) ).
+
+SELECT FROM @lt_employees AS employees
+  FIELDS employee_id,
+         to_clob( STRING_AGG( course_name, ',' ) ) AS courses
+  GROUP BY employee_id
+  INTO TABLE @DATA(lt_emp_courses).
+
+"Output
+*EMPLOYEE_ID    COURSES
+*00000001        ABAP, UI5, Fiori
+*00000002        ABAP, UI5
 ```
-
-## Example: Employee Course List
-
-```abap
-SELECT
-    employee_id,
-    STRING_AGG( course_name, ', ' ) AS courses
-FROM zemp_courses
-GROUP BY employee_id
-INTO TABLE @DATA(lt_result).
-```
-
-**Result:**
-
-| EMPLOYEE_ID | COURSES |
-|---|---|
-| 00000001 | ABAP, UI5, Fiori |
-| 00000002 | RAP, CDS |
-
-## Important: 1333 Character Limit
-
-`STRING_AGG` returns an `SSTRING` — limited to **1333 characters**. Exceeding this throws `CX_SY_OPEN_SQL_DB`.
-
-## Solution: TO_CLOB for Long Strings
-
-```abap
-" Requires ABAP 7.54+
-SELECT
-    employee_id,
-    TO_CLOB( STRING_AGG( course_name, ', ' ) ) AS courses
-FROM zemp_courses
-GROUP BY employee_id
-INTO TABLE @DATA(lt_result).
-```
-
-`TO_CLOB` wraps the result as a CLOB — no length restriction.
-
-## With ORDER BY Inside Aggregation
-
-```abap
-SELECT
-    employee_id,
-    STRING_AGG( course_name, ', ' ORDER BY course_name ASCENDING ) AS courses
-FROM zemp_courses
-GROUP BY employee_id
-INTO TABLE @DATA(lt_result).
-```
-
-## Use Cases
-
-| Use Case | Example |
-|---|---|
-| List tags/labels per record | `STRING_AGG( tag, ', ' )` |
-| Comma-separated IDs for display | `STRING_AGG( doc_id, '; ' )` |
-| Audit trail summary | `STRING_AGG( action, ' → ' ORDER BY ts )` |

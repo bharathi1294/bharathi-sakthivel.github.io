@@ -1,20 +1,20 @@
 ---
-title: "UI5: Dynamic Grid Table Columns Driven by OData Metadata"
+title: "Dynamic Grid Table — Metadata Driven Columns"
 date: 2025-12-15 08:00:00 +0530
 categories: [UI5]
-tags: [ui5, fiori, odata, metadata, grid-table, javascript, cds]
+tags: [ui5, fiori, grid-table]
 ---
 
-When the standard Fiori floorplan can't meet a requirement, a custom dialog or full UI breakout is the way to go. The challenge: keeping the frontend in sync with the backend without hardcoding every field.
+When the standard Fiori floorplan cannot support a requirement, a full UI breakout is the way to go custom dialog, custom API call, full control. The challenge is keeping the frontend in sync with the backend without hardcoding every field.
 
-**Solution:** read `@UI.LineItem` annotations from the OData MetaModel at runtime and build the table columns dynamically.
+The solution: read `@UI.LineItem` annotations from the OData MetaModel at runtime. Three values — `field`, `label`, `hidden` — are enough to build the entire Grid Table, resolve column headers from the backend, and construct a `$select` that only fetches visible fields.
 
-## How it Works
-
-- Add a CDS field with `@UI.lineItem` → column appears automatically
-- Set `hidden: true` in the annotation → gone from UI and `$select`
-- Rename a label in CDS → reflected in the column header instantly
+- Add a field in CDS with lineItem annotation - column appears automatically
+- Set `hidden: true` - gone from the UI and the API call
+- Rename a label in CDS - reflected in the column header instantly
 - No JS or XML change needed for any of the above
+
+---
 
 ## ABAP CDS
 
@@ -22,58 +22,62 @@ When the standard Fiori floorplan can't meet a requirement, a custom dialog or f
 @EndUserText.label: 'Custom Entity'
 @ObjectModel.query.implementedBy: 'ABAP:ZCLASS'
 define custom entity ZCustomEntity
-  with parameters
+ with parameters     
     P_CustomerID : char40,
     P_Status     : char40
 {
     @UI.lineItem: [{ position: 10, label: 'Customer' }]
+    @EndUserText.label: 'Customer'
     key customer : char40,
-
+    
     @UI.lineItem: [{ position: 20, label: 'Order ID', hidden: true }]
+    @EndUserText.label: 'Order ID'
     order_id : char10,
-
+    
     @UI.Hidden: true
+    @EndUserText.label: 'Internal Key'
     internal_key : char120
 }
 ```
 
-## XML View
+---
+
+## XML
 
 ```xml
 <t:Table id="idMyTable" rows="{tableModel>/items}" width="100%">
-    <t:columns/>
+    <t:columns/>   <!-- built programmatically -->
 </t:Table>
 ```
 
-Columns are built programmatically — no static column definitions in XML.
+---
 
-## JavaScript
+## JS
 
 ```javascript
 var oMeta       = oView.getModel().getMetaModel();
-var sEntityPath = "/ZCustomEntity/Set/";
+var sEntityPath = "/MyEntity/Set/";
 
-// Step 1 — resolve columns from annotations
 var aLineItems = oMeta.getObject(
     sEntityPath + "@com.sap.vocabularies.UI.v1.LineItem"
 ) || [];
 
-var aColumns = aLineItems.map(function(oItem) {
+// Step 1 — resolve field metadata from annotations
+var aColumns = aLineItems.map(function (oItem) {
     var sField = oItem.Value.$Path;
     return {
         field:   sField,
-        label:   oItem.Label
+        label:   oLineItem.Label
                  || oMeta.getObject(sEntityPath + sField + "@com.sap.vocabularies.Common.v1.Label")
                  || sField,
-        visible: !oItem["@com.sap.vocabularies.UI.v1.Hidden"]
-                 && !oMeta.getObject(sEntityPath + sField + "@com.sap.vocabularies.UI.v1.Hidden")
+        visible: !oItem["@com.sap.vocabularies.UI.v1.Hidden"] && !oMeta.getObject(sEntityPath + sField + "@com.sap.vocabularies.UI.v1.Hidden")
     };
 });
 
-// Step 2 — build table columns
+// Step 2 — get table reference and build columns
 var oTable = oView.byId("idMyTable");
 oTable.destroyColumns();
-aColumns.forEach(function(oCol) {
+aColumns.forEach(function (oCol) {
     oTable.addColumn(new Column({
         visible:  oCol.visible,
         label:    new Label({ text: oCol.label }),
@@ -81,10 +85,10 @@ aColumns.forEach(function(oCol) {
     }));
 });
 
-// Step 3 — fetch only visible fields via $select
+// Step 3 — call API with filters, only visible fields in $select
 var aSelectFields = aColumns
-    .filter(function(c) { return c.visible; })
-    .map(function(c) { return c.field; });
+    .filter(function (c) { return c.visible; })
+    .map(function (c) { return c.field; });
 
 var oContexts = await oView.getModel().bindList(
     "/ZCustomEntity(P_CustomerID='" + sCustomerId + "',P_Status='" + sStatus + "')/Set",
@@ -92,10 +96,10 @@ var oContexts = await oView.getModel().bindList(
     { $select: aSelectFields.join(",") }
 ).requestContexts(0, 99999999);
 
-// Step 4 — set model
+// Step 4 — create and set model directly after call returns
 oView.setModel(new JSONModel({
-    items: oContexts.map(function(c) { return c.getObject(); })
+    items: oContexts.map(function (c) { return c.getObject(); })
 }), "tableModel");
 ```
 
-The `$select` is built dynamically from visible columns — no hidden fields fetched from the backend.
+---

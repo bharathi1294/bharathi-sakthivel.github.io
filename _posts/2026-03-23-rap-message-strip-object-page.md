@@ -1,94 +1,124 @@
 ---
-title: "RAP: Display a Message Strip by Default on the Object Page"
+title: "Display Message Strip by Default in Object Page"
 date: 2026-03-23 08:00:00 +0530
 categories: [ABAP RAP]
-tags: [rap, abap, fiori, message-strip, instance-features, object-page]
+tags: [rap, abap, message-strip, fiori]
 ---
 
-Show contextual message strips automatically when a user opens an Object Page — no button click required. Done via `get_instance_features`.
-
-## Scenario
-
-Show different messages based on travel status:
-- **Information** — travel is completed (end date passed)
-- **Success** — travel is accepted
-- **Error** — travel is rejected
-
-## Step 1: Metadata Extension — Define Informational Actions
-
 ```abap
-@UI.identification: [
-  { type: #FOR_ACTION, dataAction: 'AcceptTravel', label: 'Accept', position: 10 },
-  { type: #FOR_ACTION, dataAction: 'RejectTravel', label: 'Reject', position: 20 }
-]
-TravelId;
-```
-
-## Step 2: Behavior Definition
-
-```abap
-define behavior for ZR_Travel
+"Display Message Strip by Default in Object Page using Instance Features
+"Step 1 – Add actions in Metadata Extensions
+annotate view YR_TRAVELTP with
 {
-  instance features;
-
-  action AcceptTravel result [1] $self;
-  action RejectTravel result [1] $self;
+@UI.identification: [
+  { type: #FOR_ACTION, label: 'Accept', dataAction: 'AcceptTravel', position: 10 },
+  { type: #FOR_ACTION, label: 'Reject', dataAction: 'RejectTravel', position: 20 }
+]
+....
 }
-```
 
-## Step 3: get_instance_features Implementation
 
-```abap
-METHOD get_instance_features.
-  READ ENTITIES OF ZR_Travel IN LOCAL MODE
+"Step 2 – Update the Behavior Definition (BDEF)
+define behavior for YR_TRAVELTP alias Travel 
+.....
+{
+  .....
+  update ( features : instance );
+  field ( features : instance ) OverallStatus;
+  draft action ( features : instance ) Edit;
+
+  action ( features : instance ) AcceptTravel result [1] $self;
+  action ( features : instance ) RejectTravel result [1] $self; 
+  ....
+}
+
+
+"Step 3 – Implement Logic in the Behavior Implementation (BIL)
+METHOD AcceptTravel.
+    MODIFY ENTITIES OF YR_TRAVELTP IN LOCAL MODE
     ENTITY Travel
-    FIELDS ( OverallStatus EndDate )
-    WITH CORRESPONDING #( keys )
-    RESULT DATA(lt_travel).
+    UPDATE FIELDS ( OverallStatus )
+    WITH VALUE #( FOR key IN keys ( %tky = key-%tky OverallStatus = 'A' ) ).
 
-  result = VALUE #(
-    FOR travel IN lt_travel
-    LET is_completed = xsdbool( travel-EndDate < sy-datum )
-        is_accepted  = xsdbool( travel-OverallStatus = 'A' )
-        is_rejected  = xsdbool( travel-OverallStatus = 'X' )
-    IN
-    ( %key                          = travel-%key
-      %features-%action-AcceptTravel = COND #(
-          WHEN is_accepted = abap_true THEN if_abap_behv=>fc-o-disabled
-          ELSE if_abap_behv=>fc-o-enabled )
-      %features-%action-RejectTravel = COND #(
-          WHEN is_rejected = abap_true THEN if_abap_behv=>fc-o-disabled
-          ELSE if_abap_behv=>fc-o-enabled )
-      %op-%dummy = COND #(
-          WHEN is_completed = abap_true
-          THEN VALUE #(
-              %msg = new_message(
-                  id       = 'ZTRAVEL_MSGS'
-                  number   = '001'
-                  severity = if_abap_behv_message=>severity-information
-                  v1       = travel-TravelId ) )
-          WHEN is_accepted = abap_true
-          THEN VALUE #(
-              %msg = new_message(
-                  id       = 'ZTRAVEL_MSGS'
-                  number   = '002'
-                  severity = if_abap_behv_message=>severity-success ) )
-          WHEN is_rejected = abap_true
-          THEN VALUE #(
-              %msg = new_message(
-                  id       = 'ZTRAVEL_MSGS'
-                  number   = '003'
-                  severity = if_abap_behv_message=>severity-error ) ) )
-    )
-  ).
+    READ ENTITIES OF YR_TRAVELTP IN LOCAL MODE
+      ENTITY Travel
+        ALL FIELDS
+        WITH CORRESPONDING #( keys )
+      RESULT DATA(travels).
+
+    result = VALUE #( FOR travel IN travels ( %tky = travel-%tky %param = travel ) ).
 ENDMETHOD.
+
+METHOD RejectTravel.
+    MODIFY ENTITIES OF YR_TRAVELTP IN LOCAL MODE
+    ENTITY Travel
+    UPDATE FIELDS ( OverallStatus )
+    WITH VALUE #( FOR key IN keys ( %tky = key-%tky OverallStatus = 'X' ) ).
+
+    READ ENTITIES OF YR_TRAVELTP IN LOCAL MODE
+      ENTITY Travel
+        ALL FIELDS
+        WITH CORRESPONDING #( keys )
+      RESULT DATA(travels).
+
+    result = VALUE #( FOR travel IN travels ( %tky = travel-%tky %param = travel ) ).
+ENDMETHOD.
+
+METHOD get_instance_features.
+  READ ENTITIES OF YR_TRAVELTP IN LOCAL MODE
+    ENTITY Travel
+    ALL FIELDS
+    WITH CORRESPONDING #( keys )
+    RESULT DATA(travels).
+
+  LOOP AT travels ASSIGNING FIELD-SYMBOL(<travel>).
+    reported-travel = VALUE #( BASE reported-travel ( %tky = <travel>-%tky %state_area = 'DEFAULT_MESSAGE' ) ).
+
+    IF <travel>-EndDate < cl_abap_context_info=>get_system_date( ) AND <travel>-EndDate IS NOT INITIAL.
+      DATA(is_travel_completed) = abap_true.
+      reported-travel = VALUE #( BASE reported-travel (
+                                 %tky = <travel>-%tky
+                                 %state_area = 'DEFAULT_MESSAGE'
+                                 %msg = new_message_with_text(
+                                          severity = if_abap_behv_message=>severity-information
+                                          text     = 'Travel completed' ) ) ).
+
+    ELSEIF <travel>-OverallStatus = 'A'.
+      reported-travel = VALUE #( BASE reported-travel (
+                                 %tky = <travel>-%tky
+                                 %state_area = 'DEFAULT_MESSAGE'
+                                 %msg = new_message_with_text(
+                                          severity = if_abap_behv_message=>severity-success
+                                          text     = 'Travel Accepted' ) ) ).
+
+    ELSEIF <travel>-OverallStatus = 'X'.
+      reported-travel = VALUE #( BASE reported-travel (
+                                 %tky = <travel>-%tky
+                                 %state_area = 'DEFAULT_MESSAGE'
+                                 %msg = new_message_with_text(
+                                          severity = if_abap_behv_message=>severity-error
+                                          text     = 'Travel Rejected' ) ) ).
+    ENDIF.
+
+    result = VALUE #( BASE result
+                      ( %tky = <travel>-%tky
+                        %update = COND #( WHEN is_travel_completed = abap_true
+                                          THEN if_abap_behv=>fc-o-disabled
+                                          ELSE if_abap_behv=>fc-o-enabled )
+                        %action = VALUE #(
+                          Edit = COND #( WHEN is_travel_completed = abap_true
+                                         THEN if_abap_behv=>fc-o-disabled
+                                         ELSE if_abap_behv=>fc-o-enabled )
+                          AcceptTravel = COND #( WHEN is_travel_completed = abap_true OR <travel>-OverallStatus = 'A'
+                                                 THEN if_abap_behv=>fc-o-disabled
+                                                 ELSE if_abap_behv=>fc-o-enabled )
+                          RejectTravel = COND #( WHEN is_travel_completed = abap_true OR <travel>-OverallStatus = 'X'
+                                                 THEN if_abap_behv=>fc-o-disabled
+                                                 ELSE if_abap_behv=>fc-o-enabled ) ) ) ).
+  ENDLOOP.
+ENDMETHOD.
+
+"Step 4 – Expose the actions in the projection BDEF YC_TRAVELTP (if not already exposed)
+"Step 5 – Test and See the Result
+"When you open the Object Page, the relevant message strip will appear automatically based on the travel status — Completed, Accepted, or Rejected.
 ```
-
-## Result
-
-When the user opens a travel record:
-- Completed → blue information strip
-- Accepted → green success strip
-- Rejected → red error strip
-
-No button click needed — the strip appears automatically on page load.

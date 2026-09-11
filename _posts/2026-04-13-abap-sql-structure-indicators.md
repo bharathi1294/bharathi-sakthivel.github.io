@@ -1,61 +1,36 @@
 ---
-title: "ABAP SQL: Structure Indicators — Partial Updates Without Overwriting Fields"
+title: "Structure Indicators"
 date: 2026-04-13 08:00:00 +0530
 categories: [ABAP SQL]
-tags: [abap, sql, update, structure-indicators, partial-update]
+tags: [abap, sql, structure-indicators]
 ---
 
-SQL Indicators let you update **only specific fields** in a database table — similar to RAP's `%control` component group, but for direct ABAP SQL updates.
-
-## The Problem Without Indicators
-
-A regular `UPDATE FROM TABLE` overwrites **all fields**, even ones you didn't change:
-
 ```abap
-" This updates ALL fields — overwrites unchanged ones too
-UPDATE sflight FROM TABLE @lt_sflight.
-```
+"𝗔𝗕𝗔𝗣 𝗦𝗤𝗟: 𝗜𝗻𝗱𝗶𝗰𝗮𝘁𝗼𝗿 𝗦𝘁𝗿𝘂𝗰𝘁𝘂𝗿𝗲𝘀
+"If you've worked with RAP, you might be familiar with the %𝗰𝗼𝗻𝘁𝗿𝗼𝗹 component group. 
+"This structure contains all key and data fields as components, represented as flags. 
+"It is used to determine which fields are provided to Create/Update during CREATE or UPDATE operations using EML.
 
-## Solution: Structure Indicators
+"A similar concept exists in ABAP SQL with 𝗦𝗤𝗟 𝗜𝗻𝗱𝗶𝗰𝗮𝘁𝗼𝗿𝘀. 
+"These indicators are useful for partially updating a database table by setting specific fields. 
 
-```abap
-" Define a type with indicator structure
-TYPES ty_sflight TYPE sflight WITH INDICATORS set_ind.
+* Data structure with additional set indicator
+TYPES: ty_sflight TYPE sflight WITH INDICATORS set_ind.
+DATA: it_sflight TYPE STANDARD TABLE OF ty_sflight WITH DEFAULT KEY.
 
-DATA lt_sflight TYPE TABLE OF ty_sflight WITH DEFAULT KEY.
-
-" Read data
 SELECT FROM sflight
-  FIELDS *
-  INTO CORRESPONDING FIELDS OF TABLE @lt_sflight.
+  FIELDS carrid, connid, fldate, price
+  WHERE carrid = 'AA'
+    AND connid = '0017'
+    AND fldate = '20230929'
+  INTO CORRESPONDING FIELDS OF TABLE @it_sflight.
 
-" Mark only the fields you want to update
-LOOP AT lt_sflight ASSIGNING FIELD-SYMBOL(<row>).
-  IF <row>-price > 1000.
-    <row>-price    = <row>-price * '0.9'.  " 10% discount
-    <row>-set_ind-price = '01'.            " mark for update
-  ENDIF.
+* Update Price
+LOOP AT it_sflight ASSIGNING FIELD-SYMBOL(<flight>).
+  <flight>-price = '100'.
+  <flight>-set_ind-price = '01'.
 ENDLOOP.
 
-" Only flagged fields are updated
-UPDATE sflight FROM TABLE @lt_sflight INDICATORS SET STRUCTURE set_ind.
+* Only update the columns with Set-Indicator='01'
+UPDATE sflight FROM TABLE @it_sflight INDICATORS SET STRUCTURE set_ind.
 ```
-
-## How Flags Work
-
-| Flag value | Effect |
-|---|---|
-| `'01'` | Field IS updated |
-| `' '` (initial) | Field is NOT updated |
-
-## Use Cases
-
-| Scenario | Benefit |
-|---|---|
-| Mass update of one field | Only that field changes — no risk of clearing others |
-| Conditional field update | Set indicator only when condition met |
-| Performance-sensitive updates | Smaller UPDATE payload |
-
-## Relationship to RAP %control
-
-This is the direct SQL equivalent of RAP's `%control` group — same concept, used outside the RAP framework when you're doing traditional ABAP SQL updates.
