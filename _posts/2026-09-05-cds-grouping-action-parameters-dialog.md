@@ -1,6 +1,6 @@
 ---
 title: "Grouping Action Parameters in the Action Parameter Dialog"
-date: 2026-09-28 08:00:00 +0530
+date: 2026-09-05 08:00:00 +0530
 categories: [CDS]
 tags: [cds, abap, rap, annotations, action, fiori]
 ---

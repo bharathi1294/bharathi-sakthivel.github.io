@@ -1,6 +1,6 @@
 ---
 title: "EML COMMIT ENTITIES — Capturing Validation Responses"
-date: 2026-11-16 08:00:00 +0530
+date: 2026-08-28 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, eml, commit-entities, validation]
 ---

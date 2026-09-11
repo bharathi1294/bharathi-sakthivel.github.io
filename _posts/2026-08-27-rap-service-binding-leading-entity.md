@@ -1,6 +1,6 @@
 ---
 title: "Identify the Leading Entity in the Service Binding"
-date: 2026-11-23 08:00:00 +0530
+date: 2026-08-27 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, service-binding, service-definition, leading-entity]
 ---

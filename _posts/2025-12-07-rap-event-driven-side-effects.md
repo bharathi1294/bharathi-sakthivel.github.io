@@ -1,6 +1,6 @@
 ---
 title: "Real-Time UI Updates in RAP Using Event-Driven Side Effects"
-date: 2026-09-21 08:00:00 +0530
+date: 2025-12-07 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, side-effects, events, real-time, eml]
 ---

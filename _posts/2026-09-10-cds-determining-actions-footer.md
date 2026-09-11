@@ -1,6 +1,6 @@
 ---
 title: "Display RAP Actions in the Footer Using Determining Actions"
-date: 2027-01-18 08:00:00 +0530
+date: 2026-09-10 08:00:00 +0530
 categories: [CDS]
 tags: [cds, abap, rap, determining-actions, annotations, fiori]
 ---

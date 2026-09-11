@@ -1,6 +1,6 @@
 ---
 title: "Use Conversion Exits Directly at Element Level in CDS"
-date: 2026-10-05 08:00:00 +0530
+date: 2026-09-04 08:00:00 +0530
 categories: [CDS]
 tags: [cds, abap, conversion-exit, annotations, alpha]
 ---

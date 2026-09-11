@@ -1,6 +1,6 @@
 ---
 title: "Run Validations Immediately on Field Change Using Determine Actions and Side Effects"
-date: 2026-12-07 08:00:00 +0530
+date: 2026-08-25 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, validation, determine-action, side-effects, draft]
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Dynamic Semantic Navigation in CDS"
-date: 2026-10-19 08:00:00 +0530
+date: 2026-09-02 08:00:00 +0530
 categories: [CDS]
 tags: [cds, abap, semantic-navigation, annotations, fiori]
 ---

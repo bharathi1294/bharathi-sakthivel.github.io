@@ -7,6 +7,8 @@ tags: [abap, workflow, work-item, decision-note, comments, approval]
 
 Need to retrieve the comments an approver entered when approving or rejecting a workflow task? Two options depending on your system version.
 
+![Read Approver Comment from Fiori Inbox](/assets/images/workflow_approver_comment_fiori_inbox.jpg)
+
 ## Option 1: CDS View (Recommended for BTP / Cloud)
 
 ```abap

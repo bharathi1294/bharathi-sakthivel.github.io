@@ -1,6 +1,6 @@
 ---
 title: "Accessing Structure Components Dynamically in ABAP"
-date: 2027-01-04 08:00:00 +0530
+date: 2026-09-08 08:00:00 +0530
 categories: [ABAP New Syntax]
 tags: [abap, dynamic-programming, field-symbols, structure]
 ---

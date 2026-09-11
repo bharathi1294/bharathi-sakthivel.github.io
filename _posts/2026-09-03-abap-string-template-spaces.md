@@ -1,6 +1,6 @@
 ---
 title: "String Templates — Avoid Spaces Between Vertical Bars"
-date: 2026-10-12 08:00:00 +0530
+date: 2026-09-03 08:00:00 +0530
 categories: [ABAP New Syntax]
 tags: [abap, string-templates, new-syntax]
 ---

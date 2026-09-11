@@ -1,6 +1,6 @@
 ---
 title: "Connected Fields in CDS — Display Two Fields as One"
-date: 2026-12-28 08:00:00 +0530
+date: 2026-08-18 08:00:00 +0530
 categories: [CDS]
 tags: [cds, abap, annotations, connected-fields, fiori]
 ---

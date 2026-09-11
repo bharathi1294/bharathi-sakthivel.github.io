@@ -1,6 +1,6 @@
 ---
 title: "Finding Cloud-Compatible Alternatives in ABAP Cloud"
-date: 2026-10-26 08:00:00 +0530
+date: 2026-09-01 08:00:00 +0530
 categories: [ABAP]
 tags: [abap, cloud, steampunk, btp, released-objects]
 ---

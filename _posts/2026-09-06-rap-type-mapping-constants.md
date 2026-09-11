@@ -1,6 +1,6 @@
 ---
 title: "RAP Type Mapping Constants"
-date: 2026-09-14 08:00:00 +0530
+date: 2026-09-06 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, type-mapping, constants, bdef]
 ---

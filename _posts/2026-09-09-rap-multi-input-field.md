@@ -1,6 +1,6 @@
 ---
 title: "Multi Input Field in RAP"
-date: 2027-01-11 08:00:00 +0530
+date: 2026-09-09 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, multi-input, composition, fiori]
 ---

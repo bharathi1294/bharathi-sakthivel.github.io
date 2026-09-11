@@ -1,6 +1,6 @@
 ---
 title: "Inheriting Access Conditions from a CDS View"
-date: 2026-12-21 08:00:00 +0530
+date: 2026-08-19 08:00:00 +0530
 categories: [CDS]
 tags: [cds, abap, access-control, dcl, authorization]
 ---

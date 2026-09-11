@@ -1,6 +1,6 @@
 ---
 title: "ABAP Inline Declaration — Single Quotes vs Backticks"
-date: 2026-11-09 08:00:00 +0530
+date: 2026-08-29 08:00:00 +0530
 categories: [ABAP New Syntax]
 tags: [abap, inline-declaration, string, new-syntax]
 ---

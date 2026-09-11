@@ -1,6 +1,6 @@
 ---
 title: "Display Active Annotation Values of a CDS View in ADT"
-date: 2026-11-30 08:00:00 +0530
+date: 2026-08-26 08:00:00 +0530
 categories: [ABAP]
 tags: [abap, adt, cds, annotations, eclipse]
 ---

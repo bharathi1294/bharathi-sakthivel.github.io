@@ -1,6 +1,6 @@
 ---
 title: "System Information Bar in SAP Fiori Launchpad"
-date: 2026-11-02 08:00:00 +0530
+date: 2026-08-30 08:00:00 +0530
 categories: [Fiori]
 tags: [fiori, launchpad, s4hana, abap-platform, system-info]
 ---

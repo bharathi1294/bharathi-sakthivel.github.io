@@ -1,6 +1,6 @@
 ---
 title: "Table Expressions with Fully Generic Typed Tables in ABAP"
-date: 2026-12-14 08:00:00 +0530
+date: 2026-08-20 08:00:00 +0530
 categories: [ABAP New Syntax]
 tags: [abap, table-expressions, field-symbols, data-references, generic-table]
 ---
