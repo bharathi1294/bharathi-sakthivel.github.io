@@ -1,5 +1,5 @@
 ---
-title: "Structure Indicators"
+title: "Structure Indicators in ABAP SQL"
 date: 2026-04-13 08:00:00 +0530
 categories: [ABAP SQL]
 tags: [abap, sql, structure-indicators]

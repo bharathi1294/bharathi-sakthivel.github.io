@@ -1,5 +1,5 @@
 ---
-title: "return statement"
+title: "RETURN Statement in ABAP Methods"
 date: 2026-01-05 08:00:00 +0530
 categories: [ABAP New Syntax]
 tags: [abap, return]

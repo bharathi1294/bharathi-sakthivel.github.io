@@ -75,3 +75,5 @@ By using these annotations:
 - A **determination or get defaults** can be used to set the default value.
 - Users cannot clear the selected value.
 - No additional validation is required to ensure a value is selected.
+
+![RadioButton]({{ '/src/images/RadioButton.png' | relative_url }})

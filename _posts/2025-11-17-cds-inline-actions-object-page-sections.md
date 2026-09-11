@@ -1,5 +1,5 @@
 ---
-title: "𝗔𝗰𝘁𝗶𝗼𝗻𝘀/𝗜𝗻𝗹𝗶𝗻𝗲 𝗔𝗰𝘁𝗶𝗼𝗻𝘀 𝗶𝗻 𝗢𝗯𝗷𝗲𝗰𝘁 𝗣𝗮𝗴𝗲 𝗦𝗲𝗰𝘁𝗶𝗼𝗻𝘀"
+title: "Inline Actions in Object Page Sections"
 date: 2025-11-17 08:00:00 +0530
 categories: [CDS]
 tags: [cds, abap, annotations, fiori]
@@ -30,4 +30,4 @@ Use Case Example: A colleague recently had a requirement to add a section-specif
  `emphasized: true }]`\
  `element;`
 
-![Inline_Actions_in_Object_Page_Sections ](../src/images/Inline_Actions_in_Object_Page_Sections.gif)
+![Inline_Actions_in_Object_Page_Sections ]({{ '/src/images/Inline_Actions_in_Object_Page_Sections.gif' | relative_url }})

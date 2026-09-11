@@ -1,5 +1,5 @@
 ---
-title: "Criticality"
+title: "Criticality in CDS Line Items"
 date: 2026-05-04 08:00:00 +0530
 categories: [CDS]
 tags: [cds, abap, criticality, annotations]

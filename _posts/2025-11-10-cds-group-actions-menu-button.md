@@ -1,5 +1,5 @@
 ---
-title: "Grouping Actions as Menu Button using Annotations"
+title: "Grouping Actions as Menu Button in CDS"
 date: 2025-11-10 08:00:00 +0530
 categories: [CDS]
 tags: [cds, abap, annotations, fiori]
@@ -26,4 +26,4 @@ For example, here I’ve grouped two actions (acceptTravel and rejectTravel) und
 
 Note: I tried this in SAP BTP, ABAP Environment, and it works great! I believe this should also be available in SAP S/4HANA Public Cloud Latest version. For Private Cloud availability, I’ll check and share more once I have the details.
 
-![Grouping_Actions_as_Menu_Button_using_Annotations ](../src/images/Grouping_Actions_as_Menu_Button_using_Annotations.mp4)
+![Grouping_Actions_as_Menu_Button_using_Annotations ]({{ '/src/images/Grouping_Actions_as_Menu_Button_using_Annotations.mp4' | relative_url }})

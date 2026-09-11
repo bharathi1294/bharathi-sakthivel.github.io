@@ -1,5 +1,5 @@
 ---
-title: "window functions"
+title: "Window Functions in ABAP SQL"
 date: 2025-09-01 08:00:00 +0530
 categories: [ABAP SQL]
 tags: [abap, sql, window-functions]

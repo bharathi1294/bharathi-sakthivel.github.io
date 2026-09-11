@@ -1,5 +1,5 @@
 ---
-title: "COALESCE Function"
+title: "COALESCE Function in ABAP SQL"
 date: 2026-03-30 08:00:00 +0530
 categories: [ABAP SQL]
 tags: [abap, sql, coalesce]

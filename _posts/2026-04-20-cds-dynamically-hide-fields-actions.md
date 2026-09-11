@@ -1,5 +1,5 @@
 ---
-title: "dynamically hide fields and actions"
+title: "Dynamically Hide Fields and Actions in CDS"
 date: 2026-04-20 08:00:00 +0530
 categories: [CDS]
 tags: [cds, abap, field-control, annotations]

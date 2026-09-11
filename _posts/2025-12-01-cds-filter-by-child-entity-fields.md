@@ -14,4 +14,4 @@ You can achieve this by adding the following annotation to the root CDS view met
 
 I tested this in the BTP ABAP Environment, and it works perfectly but only with OData V4.
 
-![Filter_List_Reports_by_Child_Entity_Fields ](../src/images/Filter_List_Reports_by_Child_Entity_Fields.gif)
+![Filter_List_Reports_by_Child_Entity_Fields ]({{ '/src/images/Filter_List_Reports_by_Child_Entity_Fields.gif' | relative_url }})

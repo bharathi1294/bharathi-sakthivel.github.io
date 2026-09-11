@@ -1,5 +1,5 @@
 ---
-title: "CL ABAP STRUCT UTILITIES"
+title: "CL_ABAP_STRUCT_UTILITIES"
 date: 2026-01-26 08:00:00 +0530
 categories: [ABAP New Syntax]
 tags: [abap, struct, utilities]

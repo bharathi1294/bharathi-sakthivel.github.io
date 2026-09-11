@@ -1,5 +1,5 @@
 ---
-title: "Corresponding with lookup table"
+title: "CORRESPONDING with Lookup Table in ABAP"
 date: 2025-12-22 08:00:00 +0530
 categories: [ABAP New Syntax]
 tags: [abap, corresponding, lookup]

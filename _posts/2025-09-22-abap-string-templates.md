@@ -1,5 +1,5 @@
 ---
-title: "string templates"
+title: "String Templates in ABAP"
 date: 2025-09-22 08:00:00 +0530
 categories: [ABAP New Syntax]
 tags: [abap, string-templates]

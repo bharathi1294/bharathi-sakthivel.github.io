@@ -1,5 +1,5 @@
 ---
-title: "semantics valuerange"
+title: "Semantics Value Range in CDS"
 date: 2026-04-27 08:00:00 +0530
 categories: [CDS]
 tags: [cds, abap, semantics, value-range]

@@ -1,5 +1,5 @@
 ---
-title: "segment function"
+title: "SEGMENT Function in ABAP Strings"
 date: 2026-01-19 08:00:00 +0530
 categories: [ABAP New Syntax]
 tags: [abap, segment, string]

@@ -1,5 +1,5 @@
 ---
-title: "add leading zeros using string template(WIDTH)"
+title: "Add Leading Zeros Using String Template WIDTH"
 date: 2026-02-02 08:00:00 +0530
 categories: [ABAP New Syntax]
 tags: [abap, leading-zeros, string-template]
