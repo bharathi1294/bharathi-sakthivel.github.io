@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bharathi1294.github.io/bharathi-sakthivel.github.io/sitemap.xml

@@ -13,6 +13,8 @@ tagline: SAP Full Stack Developer · ABAP · RAP · UI5 · Fiori · AI
 description: >-
   Practical SAP development tips on ABAP, RAP, UI5, Fiori, and AI — shared with 15k+ developers on LinkedIn.
 
+google_site_verification: Jj2FOKmQf0v86bTZCkesaDnPgGZujU6Sr3mJGY9fwcw
+
 url: "https://bharathi1294.github.io"
 baseurl: "/bharathi-sakthivel.github.io"
 
@@ -29,6 +31,10 @@ social:
 avatar: "/assets/images/profile.jpg"
 social_preview_image: "/assets/images/profile.jpg"
 
+author:
+  name: Bharathi Sakthivel
+  url: https://www.linkedin.com/in/bharathi-sakthivel
+
 theme_mode: # follows system (dark/light toggle available)
 
 toc: true
@@ -42,8 +48,6 @@ pwa:
     enabled: true
 
 paginate: 10
-
-baseurl: "/bharathi-sakthivel.github.io"
 
 kramdown:
   footnote_backlink: "&#8617;&#xfe0e;"
