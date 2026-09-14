@@ -3,6 +3,7 @@ title: "SAP Workflow: Get Decision Note (Approver Comments) from a Work Item"
 date: 2026-06-29 08:00:00 +0530
 categories: [Workflow]
 tags: [abap, workflow, work-item, decision-note, comments, approval]
+description: "Learn how to retrieve approver decision notes from SAP workflow work items using I_WorkflowTaskResultComment (cloud) or CL_WAPI_DECISION_COMMENT_QUERY."
 ---
 
 Need to retrieve the comments an approver entered when approving or rejecting a workflow task? Two options depending on your system version.

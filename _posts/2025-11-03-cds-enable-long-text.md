@@ -3,6 +3,7 @@ title: "Enable Long Text in CDS"
 date: 2025-11-03 08:00:00 +0530
 categories: [CDS]
 tags: [cds, abap, long-text]
+description: "Learn how to enable multiline long text fields in SAP Fiori RAP applications using the @UI.multiLineText CDS annotation."
 ---
 
 Here's a useful CDS annotation that enables long text/multiline text functionality. If you want to create or display long text fields in your RAP application, you can easily achieve this by using the `@UI.multiLineText` annotation.

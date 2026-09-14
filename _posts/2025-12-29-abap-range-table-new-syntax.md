@@ -3,6 +3,7 @@ title: "Range Tables in ABAP"
 date: 2025-12-29 08:00:00 +0530
 categories: [ABAP New Syntax]
 tags: [abap, range-table]
+description: "Learn how to build ABAP range tables directly from an SQL SELECT using FIELDS with CAST, replacing the traditional LOOP approach."
 ---
 
 ```abap

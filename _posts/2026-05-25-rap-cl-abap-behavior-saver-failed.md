@@ -3,6 +3,7 @@ title: "CL_ABAP_BEHAVIOR_SAVER_FAILED in RAP"
 date: 2026-05-25 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, behavior-saver, save-modified, bapi]
+description: "Learn how to use cl_abap_behavior_saver_failed in RAP to access the failed parameter in save_modified and stop the save process on errors."
 ---
 
 We recently had a scenario in RAP (Managed with Unmanaged Save) where we needed to call a BAPI inside `save_modified`. This BAPI performs its own validations, and based on the result, we wanted to stop the save process if any errors occurred.

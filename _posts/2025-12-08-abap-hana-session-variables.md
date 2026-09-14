@@ -3,6 +3,7 @@ title: "Session Variables in ABAP, CDS, AMDP"
 date: 2025-12-08 08:00:00 +0530
 categories: [ABAP on HANA]
 tags: [abap, hana, session-variables]
+description: "Learn the equivalents of common ABAP session variables when working in AMDP and CDS for ABAP on HANA scenarios."
 ---
 
 In ABAP, we often used session variables. However, what would be their equivalent in AMDP or CDS? 

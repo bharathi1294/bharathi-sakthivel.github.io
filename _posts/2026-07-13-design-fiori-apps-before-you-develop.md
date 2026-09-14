@@ -3,6 +3,7 @@ title: "Design Fiori Apps Before You Develop"
 date: 2026-07-13 08:00:00 +0530
 categories: [Fiori]
 tags: [fiori, ui5, figma, sap, design]
+description: "How to use the SAP S/4HANA Web UI Kit for Figma to prototype Fiori apps before development, validate designs early, and reduce rework."
 ---
 
 We spend weeks on development - RAP, UI5, Fiori, CDS... Then the user says: "This is not what we expected." And we have to go back and make changes.

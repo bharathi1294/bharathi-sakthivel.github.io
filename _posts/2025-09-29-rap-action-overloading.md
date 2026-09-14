@@ -3,6 +3,7 @@ title: "Action Overloading in SAP ABAP RAP"
 date: 2025-09-29 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, actions]
+description: "Learn how to use action overloading in ABAP RAP to display a Root entity action in a Child entity table on the Object Page."
 ---
 
 Action Overloading allows you to add an action defined on one entity to the object page list table of another entity.

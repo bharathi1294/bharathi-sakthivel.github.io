@@ -3,6 +3,7 @@ title: "LOOP AT GROUP and FOR GROUPS OF in ABAP"
 date: 2025-09-08 08:00:00 +0530
 categories: [ABAP New Syntax]
 tags: [abap, internal-table, loop, group-by]
+description: "Learn how to use LOOP AT GROUP and FOR GROUPS OF in ABAP to group and process internal table data, replacing obsolete AT NEW statements."
 ---
 
 ```abap

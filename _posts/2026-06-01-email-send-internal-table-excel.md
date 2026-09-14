@@ -3,6 +3,7 @@ title: "ABAP: Send an Internal Table as an Excel Attachment via Email"
 date: 2026-06-01 08:00:00 +0530
 categories: [Email]
 tags: [abap, email, excel, bcs, salv, attachment, xlsx]
+description: "Learn how to send an ABAP internal table as an Excel attachment via email using SALV export and the BCS framework."
 ---
 
 Send any internal table as an `.xlsx` email attachment using SAP's BCS framework and SALV export.

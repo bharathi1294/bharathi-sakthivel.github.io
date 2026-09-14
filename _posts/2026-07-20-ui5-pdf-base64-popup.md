@@ -3,6 +3,7 @@ title: "UI5: Display a Base64 PDF in a Popup Using PDFViewer"
 date: 2026-07-20 08:00:00 +0530
 categories: [UI5]
 tags: [ui5, javascript, pdf, base64, popup, pdfviewer, blob]
+description: "Learn how to display a Base64 PDF string in a SAP UI5 popup using PDFViewer and the Blob API without requiring server access."
 ---
 
 Display a PDF received as a Base64 string in a SAP UI5 popup — no server download, no file system access needed.

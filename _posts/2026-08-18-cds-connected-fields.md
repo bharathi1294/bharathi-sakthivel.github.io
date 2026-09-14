@@ -3,6 +3,7 @@ title: "Connected Fields in CDS — Display Two Fields as One"
 date: 2026-08-18 08:00:00 +0530
 categories: [CDS]
 tags: [cds, abap, annotations, connected-fields, fiori]
+description: "Learn how to display two CDS fields as a single combined column using the @UI.connectedFields annotation in SAP Fiori applications."
 ---
 
 Have you ever encountered a scenario where you need to display or edit two fields as one? Typically, we achieve this by concatenating the fields. However, you can achieve the same result using **Connected Fields**.

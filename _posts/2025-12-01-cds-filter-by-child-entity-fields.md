@@ -3,6 +3,7 @@ title: "Filter List Reports by Child Entity Fields"
 date: 2025-12-01 08:00:00 +0530
 categories: [CDS]
 tags: [cds, abap, fiori, filter]
+description: "Learn how to filter a Fiori List Report by child entity fields using the @UI.selectionField annotation on the root CDS view (OData V4 only)."
 ---
 
 Have you ever wanted to filter a list report based on a field from a child entity? For example, filtering travel records by the AirlineID from the associated _Booking entity?

@@ -3,6 +3,7 @@ title: "with full data"
 date: 2025-10-27 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, eml]
+description: "Learn how to use WITH FULL DATA in ABAP RAP managed save to receive all field values in save_modified, avoiding extra READ operations."
 ---
 
 The additions `𝘄𝗶𝘁𝗵 𝗮𝗱𝗱𝗶𝘁𝗶𝗼𝗻𝗮𝗹 𝘀𝗮𝘃𝗲` and `𝘄𝗶𝘁𝗵 𝘂𝗻𝗺𝗮𝗻𝗮𝗴𝗲𝗱 𝘀𝗮𝘃𝗲` can be used to enhance or to replace the default save sequence in a managed RAP BO. 

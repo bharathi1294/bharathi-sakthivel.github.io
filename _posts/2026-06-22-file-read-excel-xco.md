@@ -3,6 +3,7 @@ title: "ABAP: Read Excel Files with the XCO Library"
 date: 2026-06-22 08:00:00 +0530
 categories: [File Handling]
 tags: [abap, excel, xco, xlsx, file-handling, btp, steampunk]
+description: "Learn how to read Excel (.xlsx) files in SAP BTP ABAP Environment and S/4HANA using the modern XCO library (xco_cp_xlsx)."
 ---
 
 The XCO Library (`xco_cp_xlsx`) is the modern way to read `.xlsx` files in SAP BTP ABAP Environment and S/4HANA. No function modules, no legacy classes.

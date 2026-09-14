@@ -3,6 +3,7 @@ title: "Hide Fields Based on Other Field Value Immediately"
 date: 2026-03-02 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, field-control]
+description: "Learn how to dynamically hide fields immediately in ABAP RAP using derived boolean fields and the @UI.hidden annotation."
 ---
 
 ```abap

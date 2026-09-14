@@ -3,6 +3,7 @@ title: "RETURN Statement in ABAP Methods"
 date: 2026-01-05 08:00:00 +0530
 categories: [ABAP New Syntax]
 tags: [abap, return, new-syntax]
+description: "Learn how to use the RETURN statement in ABAP 7.58+ to return values directly from methods, including structures and internal tables."
 ---
 
 In ABAP, the `RETURN` statement has been used to exit a procedure such as a method or function module. Unlike many other programming languages where `return` is used to pass a value back from a function, earlier versions of ABAP did not support this functionality.

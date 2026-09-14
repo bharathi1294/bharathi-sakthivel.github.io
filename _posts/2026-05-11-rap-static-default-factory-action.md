@@ -3,6 +3,7 @@ title: "Static Default Factory Action in RAP"
 date: 2026-05-11 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, factory-action]
+description: "Learn how to use a static default factory action in ABAP RAP to replace the standard create with a custom action popup and parameters."
 ---
 
 ```abap

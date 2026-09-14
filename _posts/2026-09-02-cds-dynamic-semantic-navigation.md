@@ -3,6 +3,7 @@ title: "Dynamic Semantic Navigation in CDS"
 date: 2026-09-02 08:00:00 +0530
 categories: [CDS]
 tags: [cds, abap, semantic-navigation, annotations, fiori]
+description: "Learn how to implement dynamic semantic navigation in CDS by conditionally showing fields with separate semantic object annotations per type."
 ---
 
 I recently encountered a scenario where I needed to navigate to different apps based on the type of a technical object — **Functional Location** or **Equipment**. Since CDS doesn't support dynamic semantic object/action assignment, I implemented a workaround by grouping two fields into a single column, each configured with its own semantic object and action. Based on the object type, I conditionally hide one of the fields.

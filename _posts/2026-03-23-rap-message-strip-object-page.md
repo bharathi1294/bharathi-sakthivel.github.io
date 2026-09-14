@@ -3,6 +3,7 @@ title: "Display Message Strip by Default in Object Page using Instance Features"
 date: 2026-03-23 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, message-strip, instance-features, fiori]
+description: "Learn how to display a colored message strip on the RAP Object Page using instance features based on the record's status value."
 ---
 
 Here's a simple example: if a travel request is completed, it shows an information message and no updates are allowed; if it's accepted, it shows a success message; and if it's rejected, it shows an error message.

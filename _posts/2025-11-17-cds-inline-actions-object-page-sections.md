@@ -3,6 +3,7 @@ title: "Inline Actions in Object Page Sections"
 date: 2025-11-17 08:00:00 +0530
 categories: [CDS]
 tags: [cds, abap, annotations, fiori, inline-actions]
+description: "Learn how to add inline RAP actions to specific Object Page sections in SAP Fiori using the @UI.fieldGroup inline: true annotation."
 ---
 
 Have you ever faced a scenario where you wanted to add RAP actions specific to a section of the Object Page, not the entire page? If yes, this is for you!

@@ -3,6 +3,7 @@ title: "The Usage of cl_abap_behv_aux in RAP"
 date: 2025-10-13 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, behavior, projection, cl-abap-behv-aux]
+description: "Learn how to use cl_abap_behv_aux in RAP to identify the calling projection and conditionally execute logic in handler classes."
 ---
 
 I had a BDEF named `R_SomeName`, and on top of that, I created two projections: one for the UI (`C_SomeName`) and another for the API (`A_SomeName`).

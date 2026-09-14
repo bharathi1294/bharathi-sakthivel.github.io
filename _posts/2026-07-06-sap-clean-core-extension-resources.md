@@ -3,6 +3,7 @@ title: "SAP Clean Core & Extension — Useful Resources"
 date: 2026-07-06 08:00:00 +0530
 categories: [Extension]
 tags: [abap, extension, s4hana, clean-core, sap, btp]
+description: "A curated collection of SAP resources on Clean Core extensibility, extension architecture, and ABAP Cloud for S/4HANA and BTP."
 ---
 
 If you're looking for guidance on **SAP application extension options, extension architecture, Clean Core levels, extension methods, and how to choose the right approach**, these resources might be useful.

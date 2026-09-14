@@ -3,6 +3,7 @@ title: "GET PERMISSIONS EML"
 date: 2026-02-16 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, eml, permissions]
+description: "Learn how to use GET PERMISSIONS in ABAP EML to retrieve instance features and authorizations for RAP business object instances."
 ---
 
 ```abap

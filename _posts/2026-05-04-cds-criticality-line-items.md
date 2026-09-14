@@ -3,6 +3,7 @@ title: "Criticality in CDS Line Items"
 date: 2026-05-04 08:00:00 +0530
 categories: [CDS]
 tags: [cds, abap, criticality, annotations]
+description: "Learn how to highlight Fiori line items and columns with color-coded criticality using derived CDS fields and @UI.lineItem criticality annotations."
 ---
 
 ```abap

@@ -3,6 +3,7 @@ title: "Accessing Change Information in EML Using WITH CHANGES"
 date: 2026-02-23 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, eml, with-changes, determination, validation]
+description: "Learn how to use READ ... WITH CHANGES in ABAP EML to access accumulated change info and see which fields changed in a RAP transaction."
 ---
 
 Using `READ ... WITH CHANGES` in ABAP EML lets you access accumulated change information for RAP BO instances within a RAP transaction.

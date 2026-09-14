@@ -3,6 +3,7 @@ title: "CORRESPONDING with Lookup Table in ABAP"
 date: 2025-12-22 08:00:00 +0530
 categories: [ABAP New Syntax]
 tags: [abap, corresponding, lookup]
+description: "Learn how to use the CORRESPONDING operator with a lookup table in ABAP to populate fields from another internal table during mapping."
 ---
 
 ```abap

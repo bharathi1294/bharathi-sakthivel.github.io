@@ -3,6 +3,7 @@ title: "Real-Time UI Updates in RAP Using Event-Driven Side Effects"
 date: 2025-12-07 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, side-effects, events, real-time, eml]
+description: "Learn how to implement event-driven side effects in ABAP RAP to automatically update the Fiori UI when backend data changes in real time."
 ---
 
 Have you ever had a scenario where something changes in the backend and you want those updates to automatically reflect in the UI — without manually refreshing the page?

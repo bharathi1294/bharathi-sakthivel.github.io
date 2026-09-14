@@ -3,6 +3,7 @@ title: "ABAP: Create CSV Files Using CL_CSV_FACTORY"
 date: 2026-06-15 08:00:00 +0530
 categories: [File Handling]
 tags: [abap, csv, cl-csv-factory, file-handling, download]
+description: "Learn how to create CSV files from ABAP internal tables using CL_CSV_FACTORY with custom headers and separators — no string concatenation needed."
 ---
 
 `CL_CSV_FACTORY` is the clean, modern way to generate CSV files from internal tables in ABAP — no manual string concatenation needed.

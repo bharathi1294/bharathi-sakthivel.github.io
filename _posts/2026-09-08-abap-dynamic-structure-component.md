@@ -3,6 +3,7 @@ title: "Accessing Structure Components Dynamically in ABAP"
 date: 2026-09-08 08:00:00 +0530
 categories: [ABAP New Syntax]
 tags: [abap, dynamic-programming, field-symbols, structure]
+description: "Learn how to access structure components dynamically in ABAP using the newer <fs>-(comp_name) syntax as an alternative to ASSIGN COMPONENT."
 ---
 
 Have you ever encountered a scenario where you needed to retrieve a specific component value from a dynamic structure? Traditionally, this is achieved using:

@@ -3,6 +3,7 @@ title: "Dynamically Hide Fields and Actions in CDS"
 date: 2026-04-20 08:00:00 +0530
 categories: [CDS]
 tags: [cds, abap, field-control, annotations]
+description: "Learn how to dynamically hide fields, facets, and standard CRUD operations in CDS using boolean flag fields and @UI.hidden annotations."
 ---
 
 ```abap

@@ -3,6 +3,7 @@ title: "Draft in RAP — OPTIMIZED Activate Action"
 date: 2026-08-31 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, draft, activate, optimized, performance]
+description: "Learn how to use the OPTIMIZED keyword on the RAP draft Activate action to avoid duplicate determination and validation execution during save."
 ---
 
 In draft-enabled BOs, we have actions such as Edit, Resume, Discard, Activate, and Prepare. This tip focuses on the **Activate** action and the use of the `OPTIMIZED` keyword. The Activate action copies draft data to the persistent table at the time of save.

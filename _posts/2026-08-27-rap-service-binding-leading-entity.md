@@ -3,6 +3,7 @@ title: "Identify the Leading Entity in the Service Binding"
 date: 2026-08-27 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, service-binding, service-definition, leading-entity]
+description: "Learn how to use @ObjectModel.leadingEntity.name in CDS service definitions to mark the leading entity and simplify navigation in the service binding."
 ---
 
 If you're working on a large RAP-based project, it can sometimes be confusing to identify the root entity in the service binding, especially when multiple entities are exposed. To simplify this, you can use the `@ObjectModel.leadingEntity.name` annotation in the service definition.

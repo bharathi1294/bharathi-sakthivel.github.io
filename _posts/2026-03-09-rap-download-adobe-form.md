@@ -3,6 +3,7 @@ title: "Download Adobe Form in RAP"
 date: 2026-03-09 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, adobe-form, download]
+description: "Learn how to download Adobe forms and files in ABAP RAP using stream fields and actions, since GUI_DOWNLOAD does not work in RAP."
 ---
 
 ```abap

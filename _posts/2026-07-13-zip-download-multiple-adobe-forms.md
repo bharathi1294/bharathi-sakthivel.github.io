@@ -3,6 +3,7 @@ title: "ABAP: Generate Multiple Adobe Forms and Download as a ZIP File"
 date: 2026-07-13 08:00:00 +0530
 categories: [ZIP]
 tags: [abap, zip, adobe-forms, pdf, download, email, bcs, cl-abap-zip]
+description: "Learn how to generate multiple Adobe Form PDFs in ABAP and bundle them into a ZIP file for user download or email attachment."
 ---
 
 Generate a PDF for each record, bundle them into a ZIP, and let the user download it — or send it as an email attachment.

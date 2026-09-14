@@ -3,6 +3,7 @@ title: "Finding Cloud-Compatible Alternatives in ABAP Cloud"
 date: 2026-09-01 08:00:00 +0530
 categories: [ABAP]
 tags: [abap, cloud, steampunk, btp, released-objects]
+description: "Learn how to find cloud-compatible alternatives for classic ABAP objects in ABAP Cloud using ADT, the API Business Hub, and released object queries."
 ---
 
 If you're working in the ABAP environment on BTP (Steampunk) or using the "ABAP for Cloud Development" language version in the Private Cloud, you may have noticed that you can't directly use some classic objects like tables (`VBAK`, `VBAP`, `MARA`), function modules, or classes. These objects aren't released for use in cloud scenarios, so attempting to use them will throw errors.

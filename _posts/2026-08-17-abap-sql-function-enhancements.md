@@ -3,6 +3,7 @@ title: "Enhancements in ABAP SQL Functions"
 date: 2026-08-17 08:00:00 +0530
 categories: [ABAP SQL]
 tags: [abap, sql, string-agg, ltrim, rtrim, s4hana]
+description: "Learn about ABAP SQL enhancements in S/4HANA 2025: STRING_AGG and LTRIM/RTRIM now accept host variables as separator or trim character."
 ---
 
 **STRING_AGG:** The separator can now be passed as a host variable instead of a constant. If you're not familiar with this function, check out [this earlier post]({% post_url 2026-04-06-abap-sql-string-agg %}).

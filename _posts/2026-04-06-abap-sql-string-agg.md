@@ -3,6 +3,7 @@ title: "STRING_AGG Function in ABAP SQL"
 date: 2026-04-06 08:00:00 +0530
 categories: [ABAP SQL]
 tags: [abap, sql, string-agg]
+description: "Learn how to use STRING_AGG in ABAP SQL to concatenate row values into a delimited string, grouped by a key field."
 ---
 
 ```abap

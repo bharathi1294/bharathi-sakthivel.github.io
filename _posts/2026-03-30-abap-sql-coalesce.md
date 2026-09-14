@@ -3,6 +3,7 @@ title: "COALESCE Function in ABAP SQL"
 date: 2026-03-30 08:00:00 +0530
 categories: [ABAP SQL]
 tags: [abap, sql, coalesce]
+description: "Learn how to use the COALESCE function in ABAP SQL to return the first non-null value from a list of arguments in SELECT statements."
 ---
 
 ```abap

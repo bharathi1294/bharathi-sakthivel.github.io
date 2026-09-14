@@ -3,6 +3,7 @@ title: "Fiori: Construct FLP URLs Programmatically with CL_LSAPI_MANAGER"
 date: 2026-05-25 08:00:00 +0530
 categories: [Fiori]
 tags: [fiori, abap, flp, launchpad, url, navigation, cl-lsapi-manager]
+description: "Learn how to programmatically construct Fiori Launchpad URLs with parameters from ABAP using CL_LSAPI_MANAGER."
 ---
 
 Need to launch a Fiori app from ABAP — or generate a dynamic FLP URL with parameters? Use `CL_LSAPI_MANAGER`.

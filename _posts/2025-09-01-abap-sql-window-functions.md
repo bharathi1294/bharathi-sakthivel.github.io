@@ -3,6 +3,7 @@ title: "Window Functions in ABAP SQL"
 date: 2025-09-01 08:00:00 +0530
 categories: [ABAP SQL]
 tags: [abap, sql, window-functions]
+description: "Learn how to use SQL window functions in ABAP to calculate rankings, running totals, and aggregates within result sets."
 ---
 
 ```abap

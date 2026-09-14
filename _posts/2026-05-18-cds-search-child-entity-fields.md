@@ -3,6 +3,7 @@ title: "CDS: Enable Global Search on Child Entity Fields in List Report"
 date: 2026-05-18 08:00:00 +0530
 categories: [CDS]
 tags: [cds, fiori, annotations, search, list-report, child-entity, odata-v4]
+description: "Learn how to extend the global search in a Fiori List Report to search child entity fields using @Search.defaultSearchElement on associations."
 ---
 
 By default, the global search in a Fiori List Report only searches root entity fields. You can extend it to search fields on child/associated entities too.

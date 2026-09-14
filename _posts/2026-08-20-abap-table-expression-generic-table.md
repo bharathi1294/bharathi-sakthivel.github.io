@@ -3,6 +3,7 @@ title: "Table Expressions with Fully Generic Typed Tables in ABAP"
 date: 2026-08-20 08:00:00 +0530
 categories: [ABAP New Syntax]
 tags: [abap, table-expressions, field-symbols, data-references, generic-table]
+description: "Learn how to read and update rows in fully generic typed ABAP tables at runtime using dynamic table expressions with FIELD-SYMBOLS."
 ---
 
 When working with fully generic tables in ABAP (e.g., `FIELD-SYMBOLS <f_table> TYPE ANY TABLE`), the actual structure of the table is determined only at runtime.

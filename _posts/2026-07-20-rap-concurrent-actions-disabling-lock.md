@@ -3,6 +3,7 @@ title: "Concurrent Actions in RAP — Disabling Lock"
 date: 2026-07-20 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, actions, lock]
+description: "Learn how to disable the RAP instance lock for a specific action using lock: none to allow concurrent action execution by multiple users."
 ---
 
 Recently, we had a scenario in RAP where an action was available on the Object Page in display mode to schedule a background job.

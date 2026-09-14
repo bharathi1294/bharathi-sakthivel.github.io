@@ -3,6 +3,7 @@ title: "Multi Input Field in RAP"
 date: 2026-09-09 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, multi-input, composition, fiori]
+description: "Learn how to implement a multi-input field in ABAP RAP by assigning a composition child association field as the value in @UI.lineItem."
 ---
 
 Have you ever encountered a scenario in RAP where you need to handle multiple inputs? It's possible to implement a **multi-input field** that allows you to create and delete values in a composition child.

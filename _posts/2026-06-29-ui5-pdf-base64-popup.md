@@ -3,6 +3,7 @@ title: "Display Base64 PDF in Popup (UI5)"
 date: 2026-06-29 08:00:00 +0530
 categories: [UI5]
 tags: [ui5, fiori, pdf, base64]
+description: "Learn how to display a Base64-encoded PDF in a SAP UI5 popup using PDFViewer and the Blob API with a JavaScript helper function."
 ---
 
 ```javascript

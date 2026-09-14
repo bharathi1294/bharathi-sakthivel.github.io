@@ -3,6 +3,7 @@ title: "Semantics Value Range in CDS"
 date: 2026-04-27 08:00:00 +0530
 categories: [CDS]
 tags: [cds, abap, semantics, value-range]
+description: "Learn how to use the @Semantics.valueRange annotation in CDS to define minimum and maximum value constraints for CDS elements."
 ---
 
 ### Annotation: Semantics.valueRange

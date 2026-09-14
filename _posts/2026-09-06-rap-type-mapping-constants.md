@@ -3,6 +3,7 @@ title: "RAP Type Mapping Constants"
 date: 2026-09-06 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, type-mapping, constants, bdef]
+description: "Learn how to use RAP type mapping constants in the BDEF to store a fixed field value in a persistent table without using determinations."
 ---
 
 Have you ever faced a RAP scenario where a field always needs to store the same fixed value in the table? Earlier, we handled this using determinations or `get defaults` to set default values. Now, it's much simpler with **RAP Type Mapping – Constant**.

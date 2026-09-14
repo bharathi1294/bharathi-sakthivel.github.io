@@ -3,6 +3,7 @@ title: "SAP: Fetch Users from Responsibility Management (RSM)"
 date: 2026-07-06 08:00:00 +0530
 categories: [Workflow]
 tags: [abap, workflow, responsibility-management, rsm, approval, agents, s4hana]
+description: "Learn how to fetch responsible agents dynamically from SAP Responsibility Management using CL_RSM_DETERMINE_RESPONSIBLE."
 ---
 
 In SAP S/4HANA, **Responsibility Management (RSM)** defines who is responsible for what based on attributes like Sales Org, Bill-to-Party, etc. Use `CL_RSM_DETERMINE_RESPONSIBLE` to fetch agents dynamically.

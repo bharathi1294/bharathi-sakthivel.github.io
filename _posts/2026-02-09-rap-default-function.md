@@ -3,6 +3,7 @@ title: "Default Function RAP"
 date: 2026-02-09 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, default-function]
+description: "Learn how to use a default function in ABAP RAP to automatically pre-fill field values when a new record is created."
 ---
 
 ```abap

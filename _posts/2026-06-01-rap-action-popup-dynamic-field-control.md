@@ -3,6 +3,7 @@ title: "RAP Action Popup: Dynamic Field Control Using Abstract Entity & Annotati
 date: 2026-06-01 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, annotations, field-control, fiori]
+description: "Learn how to implement dynamic field control in a RAP action popup using abstract entities and CDS annotations in Fiori OData V4."
 ---
 
 > ⚠️ Note: Applicable only to SAP Fiori elements for OData V4. The behavior may vary depending on the SAP UI5 version. Observed working in SAP S/4HANA 2023+(SAP UI5 1.120+).

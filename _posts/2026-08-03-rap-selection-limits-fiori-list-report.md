@@ -3,6 +3,7 @@ title: "Selection Limits in Fiori List Report (RAP)"
 date: 2026-08-03 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, fiori, ui5, list-report, table]
+description: "Learn how to overcome the 30-record selection limit in Fiori List Reports by switching to Grid Table or Table Building Block in RAP."
 ---
 
 Recently, I got a question about executing a RAP action on a large set of filtered records (50+). The challenge was that in the List Report, it's not possible to select more than 30 items at once.

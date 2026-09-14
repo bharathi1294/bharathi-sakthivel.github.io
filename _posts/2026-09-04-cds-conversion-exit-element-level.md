@@ -3,6 +3,7 @@ title: "Use Conversion Exits Directly at Element Level in CDS"
 date: 2026-09-04 08:00:00 +0530
 categories: [CDS]
 tags: [cds, abap, conversion-exit, annotations, alpha]
+description: "Learn how to apply conversion exits like ALPHA directly at the CDS element level using the @AbapCatalog.typeSpec.conversionExit annotation."
 ---
 
 We often face scenarios where a user enters an ID without leading zeros, but the system needs to store it with leading zeros while still displaying it without them. Usually, we achieve this using a domain with a conversion exit (like `VBELN`), then assign that domain to the data element and finally to the field.

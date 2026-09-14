@@ -3,6 +3,7 @@ title: "Grouping Actions as Menu Button in CDS"
 date: 2025-11-10 08:00:00 +0530
 categories: [CDS]
 tags: [cds, abap, annotations, fiori]
+description: "Learn how to group multiple RAP actions under a single menu button in Fiori using the #FOR_ACTION_GROUP CDS annotation."
 ---
 
 While exploring, one annotation caught my eye: `#𝗙𝗢𝗥_𝗔𝗖𝗧𝗜𝗢𝗡_𝗚𝗥𝗢𝗨𝗣`. I looked into it further and found that it allows you to group multiple actions under a single menu! This is particularly helpful when you want to group actions either on the List Report or the Object Page.

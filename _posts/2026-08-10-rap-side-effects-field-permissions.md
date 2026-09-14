@@ -3,6 +3,7 @@ title: "RAP Side Effects — Triggering Field Permissions"
 date: 2026-08-10 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, side-effects, feature-control, permissions]
+description: "Learn how to use RAP side effects with the permissions syntax to trigger field permission updates (readonly/mandatory) when another field changes."
 ---
 
 Imagine a scenario where the behavior of a field (like readonly, mandatory, etc.) needs to change based on another field's value. For example, if the `OverallStatus` is Rejected, the `Description` field may need to be set to readonly (using feature control).

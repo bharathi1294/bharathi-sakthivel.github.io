@@ -3,6 +3,7 @@ title: "Access Hidden CDS Fields in UI Using requestAtLeast"
 date: 2026-08-24 08:00:00 +0530
 categories: [CDS]
 tags: [cds, abap, rap, ui, annotations, fiori]
+description: "Learn how to include hidden CDS fields in the API response using @UI.presentationVariant requestAtLeast while keeping them hidden in the UI."
 ---
 
 We had a scenario where a field in a CDS view was hidden using `@UI.hidden: true`. This removes the field from the UI entirely — even from the columns personalization — because we don't want users to see it.

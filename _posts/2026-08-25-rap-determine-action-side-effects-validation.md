@@ -3,6 +3,7 @@ title: "Run Validations Immediately on Field Change Using Determine Actions and 
 date: 2026-08-25 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, validation, determine-action, side-effects, draft]
+description: "Learn how to run RAP validations immediately on field change using determine actions combined with side effects for real-time user feedback."
 ---
 
 Want your validation to run immediately after a field change — not just on save? Use **Determine Actions + Side Effects**!

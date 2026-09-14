@@ -3,6 +3,7 @@ title: "System Information Bar in SAP Fiori Launchpad"
 date: 2026-08-30 08:00:00 +0530
 categories: [Fiori]
 tags: [fiori, launchpad, s4hana, abap-platform, system-info]
+description: "Learn about the System Information Bar in SAP Fiori Launchpad (S/4HANA 2023) that displays system role, tenant, and environment details."
 ---
 
 If you're working across multiple environments like Development, Test, or Production, identifying the current system just got easier! With **ABAP Platform 2023 / S/4HANA 2023 (Private Cloud Edition)**, SAP introduces a new **System Information Bar** in the Fiori Launchpad.

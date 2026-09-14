@@ -3,6 +3,7 @@ title: "ABAP: Validate Email Addresses Using CL_BCS_EMAIL_ADDRESS"
 date: 2026-06-08 08:00:00 +0530
 categories: [Email]
 tags: [abap, email, validation, cl-bcs-email-address, rfc-5322]
+description: "Learn how to validate email addresses in ABAP using CL_BCS_EMAIL_ADDRESS instead of writing custom regex, conforming to RFC 5322."
 ---
 
 Don't write custom regex for email validation — SAP provides a standard class that validates against RFC 5322.

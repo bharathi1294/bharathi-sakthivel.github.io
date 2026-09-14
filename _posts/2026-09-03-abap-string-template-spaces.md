@@ -3,6 +3,7 @@ title: "String Templates — Avoid Spaces Between Vertical Bars"
 date: 2026-09-03 08:00:00 +0530
 categories: [ABAP New Syntax]
 tags: [abap, string-templates, new-syntax]
+description: "Learn why you should avoid spaces between vertical bars in ABAP string templates to prevent unexpected literal characters in the output string."
 ---
 
 We often use string templates (`| |`) to add or remove leading zeros and perform various string operations. However, it's important to note that you should **not leave any spaces between the two vertical bars**, as this can sometimes produce unexpected results.

@@ -3,6 +3,7 @@ title: "Why Do We Need Projection in ABAP RAP?"
 date: 2026-09-14 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, projection, bdef, fiori, odata]
+description: "Learn why ABAP RAP projection BDEFs are essential for controlling field behavior, actions, and capabilities for different consumers like UI and API."
 ---
 
 Recently, I was talking with a fresher who had just started working on an ABAP RAP object. When I looked at his project structure, I noticed this flow:

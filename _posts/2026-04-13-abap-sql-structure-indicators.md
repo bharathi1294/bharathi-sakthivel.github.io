@@ -3,6 +3,7 @@ title: "Structure Indicators in ABAP SQL"
 date: 2026-04-13 08:00:00 +0530
 categories: [ABAP SQL]
 tags: [abap, sql, structure-indicators]
+description: "Learn how to use SQL indicator structures in ABAP to partially update a database table by flagging only the specific fields that changed."
 ---
 
 ```abap

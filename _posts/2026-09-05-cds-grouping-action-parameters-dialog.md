@@ -3,6 +3,7 @@ title: "Grouping Action Parameters in the Action Parameter Dialog"
 date: 2026-09-05 08:00:00 +0530
 categories: [CDS]
 tags: [cds, abap, rap, annotations, action, fiori]
+description: "Learn how to group RAP action parameters into sections inside the action parameter dialog using @UI.facet with OperationalParameterFacets purpose."
 ---
 
 We already know that fields on the Object Page can be grouped easily using Facets, making the UI cleaner and more intuitive. The good news is this capability is now available for action popups as well.

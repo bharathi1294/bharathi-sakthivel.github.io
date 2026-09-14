@@ -3,6 +3,7 @@ title: "Dynamic Grid Table — Metadata Driven Columns"
 date: 2025-12-15 08:00:00 +0530
 categories: [UI5]
 tags: [ui5, fiori, grid-table]
+description: "Learn how to build a metadata-driven UI5 Grid Table by reading @UI.LineItem annotations from the OData MetaModel at runtime."
 ---
 
 When the standard Fiori floorplan cannot support a requirement, a full UI breakout is the way to go custom dialog, custom API call, full control. The challenge is keeping the frontend in sync with the backend without hardcoding every field.

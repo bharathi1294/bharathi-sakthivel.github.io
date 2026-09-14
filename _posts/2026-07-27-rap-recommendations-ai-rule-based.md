@@ -3,6 +3,7 @@ title: "RAP Recommendations — AI & Rule-Based Value Suggestions"
 date: 2026-07-27 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, recommendations, ai, btp]
+description: "Learn how RAP Recommendations in ABAP RAP enable AI-powered and rule-based value suggestions to help users make faster, better-informed decisions."
 ---
 
 Imagine a scenario where you want to recommend values to users based on other business data by performing your own calculations or even integrating AI-powered recommendations. This can help users make decisions and selections much more quickly and efficiently.

@@ -3,6 +3,7 @@ title: "JSON Conversion in ABAP"
 date: 2025-09-15 08:00:00 +0530
 categories: [JSON]
 tags: [abap, json]
+description: "Learn how to serialize ABAP internal tables to JSON and deserialize JSON back to structures using /ui2/cl_json."
 ---
 
 ```abap

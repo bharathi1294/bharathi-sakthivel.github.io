@@ -3,6 +3,7 @@ title: "Display Active Annotation Values of a CDS View in ADT"
 date: 2026-08-26 08:00:00 +0530
 categories: [ABAP]
 tags: [abap, adt, cds, annotations, eclipse]
+description: "Learn how to use the Active Annotations view in ADT to inspect currently active annotation values and their origin in CDS view elements."
 ---
 
 The **Active Annotations** view in ADT helps you understand the currently active annotation values of elements or parameters in a CDS view, along with their origin. If you're trying to find out what annotation values (including propagated ones) are applied to a CDS element, this view provides that insight. It also shows where each annotation value originates — whether from the view itself, an underlying data source, or a data element.

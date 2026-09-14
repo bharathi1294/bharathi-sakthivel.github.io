@@ -3,6 +3,7 @@ title: "EML COMMIT ENTITIES — Capturing Validation Responses"
 date: 2026-08-28 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, eml, commit-entities, validation]
+description: "Learn how to use COMMIT ENTITIES RESPONSES in ABAP EML to capture failed and reported messages from save-phase validations in RAP."
 ---
 
 When using EML to create or update entries, we typically populate all required fields and then use `MODIFY ENTITIES` followed by `COMMIT ENTITIES` to persist the data.

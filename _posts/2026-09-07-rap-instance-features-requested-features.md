@@ -3,6 +3,7 @@ title: "RAP Instance Features — Using requested_features for Performance"
 date: 2026-09-07 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, instance-features, performance, get-instance-features]
+description: "Learn how to use requested_features in RAP get_instance_features to skip logic for actions not requested in the current UI context."
 ---
 
 When working with RAP applications, you often need to enable or disable actions dynamically based on specific business logic. This logic is typically implemented in the `get_instance_features` method.

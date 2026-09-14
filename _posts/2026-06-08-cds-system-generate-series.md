@@ -3,6 +3,7 @@ title: "CDS System Entities: Generate Series"
 date: 2026-06-08 08:00:00 +0530
 categories: [CDS]
 tags: [cds, abap, sql, series]
+description: "Learn how to use CDS system entities like SERIES_GENERATE_DATE and SERIES_GENERATE_INTEGER to generate date, integer, and timestamp series."
 ---
 
 ```abap

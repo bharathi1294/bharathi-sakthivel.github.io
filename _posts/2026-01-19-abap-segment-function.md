@@ -3,6 +3,7 @@ title: "SEGMENT Function in ABAP Strings"
 date: 2026-01-19 08:00:00 +0530
 categories: [ABAP New Syntax]
 tags: [abap, segment, string]
+description: "Learn how to use the SEGMENT function in ABAP to split strings by a delimiter and extract specific segments by index."
 ---
 
 ```abap

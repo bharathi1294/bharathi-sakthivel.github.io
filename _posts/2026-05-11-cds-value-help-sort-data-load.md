@@ -3,6 +3,7 @@ title: "CDS: Control Value Help Sort Order and Data Load Behavior"
 date: 2026-05-11 08:00:00 +0530
 categories: [CDS]
 tags: [cds, abap, rap, annotations, value-help, sort, performance]
+description: "Learn how to control value help sort order and lazy loading in CDS using @UI.presentationVariant and @Consumption.valueHelpDefault annotations."
 ---
 
 Two annotations that improve value help UX: control **when data loads** and **how it's sorted**.

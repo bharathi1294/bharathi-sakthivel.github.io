@@ -3,6 +3,7 @@ title: "Editable Virtual Elements: Reading and Saving Long Text"
 date: 2025-10-20 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, virtual-element, long-text]
+description: "Learn how to implement an editable virtual element in ABAP RAP to read and save SAP long texts using READ_TEXT and SAVE_TEXT function modules."
 ---
 
 This guide demonstrates how to implement an **editable virtual element** in RAP to read and save SAP long texts using the `READ_TEXT` and `SAVE_TEXT` function modules.

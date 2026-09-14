@@ -3,6 +3,7 @@ title: "STEP Keyword in ABAP Loops"
 date: 2026-01-12 08:00:00 +0530
 categories: [ABAP New Syntax]
 tags: [abap, step-keyword, loop]
+description: "Learn how to use the STEP keyword in ABAP LOOP and FOR statements to skip rows, iterate in reverse, or control loop direction."
 ---
 
 ```abap

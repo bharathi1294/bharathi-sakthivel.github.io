@@ -3,6 +3,7 @@ title: "Show Fields in the Create Popup as Optional in RAP"
 date: 2026-03-16 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, create-popup, optional-fields]
+description: "Learn how to show optional fields in the RAP create popup using temporary projection fields controlled by determination and feature control."
 ---
 
 ```abap

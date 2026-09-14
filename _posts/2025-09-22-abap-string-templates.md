@@ -3,6 +3,7 @@ title: "String Templates in ABAP"
 date: 2025-09-22 08:00:00 +0530
 categories: [ABAP New Syntax]
 tags: [abap, string-templates]
+description: "Learn how to use ABAP string templates with formatting options such as ALPHA, WIDTH, CURRENCY, DATE, DECIMAL, and CASE."
 ---
 
 ```abap

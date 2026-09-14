@@ -3,6 +3,7 @@ title: "Using Radio Buttons Instead of Dropdowns in RAP"
 date: 2025-10-06 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, value-help, dropdown]
+description: "How to display a value help as radio buttons in SAP Fiori RAP using the Common.ValueListWithFixedValues and ValueListShowValuesImmediately annotations."
 ---
 
 Add the following annotations in your project's webapp/annotations/annotation.xml file.

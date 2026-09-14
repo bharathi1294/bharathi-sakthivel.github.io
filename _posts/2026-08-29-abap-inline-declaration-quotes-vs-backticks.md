@@ -3,6 +3,7 @@ title: "ABAP Inline Declaration — Single Quotes vs Backticks"
 date: 2026-08-29 08:00:00 +0530
 categories: [ABAP New Syntax]
 tags: [abap, inline-declaration, string, new-syntax]
+description: "Learn the difference between single quotes and backticks in ABAP inline declarations: single quotes create fixed-length char, backticks create STRING."
 ---
 
 When using inline declarations with literals in ABAP, there's a key difference in how values behave depending on whether you use **single quotes** (`' '`) or **backticks** (`` ` ` ``).

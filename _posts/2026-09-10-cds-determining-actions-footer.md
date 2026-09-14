@@ -3,6 +3,7 @@ title: "Display RAP Actions in the Footer Using Determining Actions"
 date: 2026-09-10 08:00:00 +0530
 categories: [CDS]
 tags: [cds, abap, rap, determining-actions, annotations, fiori]
+description: "Learn how to display RAP actions in the Fiori Object Page footer using determining actions and the @UI.identification determining: true annotation."
 ---
 
 Want to display your RAP actions in the footer? Consider using **determining actions**.

@@ -3,6 +3,7 @@ title: "SAP Fiori Input Masks with Regular Expression Validation"
 date: 2025-11-24 08:00:00 +0530
 categories: [CDS]
 tags: [cds, abap, input-mask]
+description: "Learn how to use the @UI.inputMask CDS annotation to define input masks and regex validations directly in SAP Fiori applications."
 ---
 
 Hello Everyone! 👋

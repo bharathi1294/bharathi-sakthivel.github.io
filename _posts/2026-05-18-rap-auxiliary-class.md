@@ -3,6 +3,7 @@ title: "The Usage of Auxiliary Class in RAP"
 date: 2026-05-18 08:00:00 +0530
 categories: [ABAP RAP]
 tags: [rap, abap, auxiliary-class, eml, local-mode]
+description: "Learn how to use a RAP Auxiliary Class to execute EML with IN LOCAL MODE from outside a behavior class, such as in a background job."
 ---
 
 We recently had a requirement to update a field of a RAP BO using an EML `MODIFY` statement from a background job. That field was disabled in the UI using feature instance control, so the EML update failed with errors or dumps.
