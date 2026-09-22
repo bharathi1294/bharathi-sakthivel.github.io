@@ -184,4 +184,8 @@ ENDMETHOD.
 
 ---
 
-> **Tip:** If `PartnerFunction` is empty, both `ShowValueHelpOne` and `ShowValueHelpTwo` will be false — meaning no value help is enabled. Clicking the `Partner` field in this state will throw a value help error. A clean workaround is to disable the `Partner` field using **instance-based feature control** (`instance features`) whenever `PartnerFunction` is empty, so the user cannot interact with the field until a Partner Function is selected.
+> **Observation:** If `PartnerFunction` is empty, both `ShowValueHelpOne` and `ShowValueHelpTwo` will be false — meaning no value help is enabled. Clicking the `Partner` field in this state will throw a value help error.
+
+> **Workaround:** Disable the `Partner` field using **instance-based feature control** (`instance features`) whenever `PartnerFunction` is empty, so the user cannot interact with the field until a Partner Function is selected.
+
+> **Note:** The `enabled` property in `@Consumption.valueHelpDefinition` is available from **BTP ABAP Environment (Public Cloud)** and **S/4HANA Private Cloud** from **2021** onwards.
