@@ -8,7 +8,7 @@ description: "Learn how to implement context-dependent value help in ABAP RAP, w
 
 Imagine a scenario where you have two fields:
 
-**Partner Function → Partner**
+**Partner Function and Partner**
 
 You want to control the value help of the **Partner** field based on the value selected in **Partner Function**.
 
@@ -186,6 +186,6 @@ ENDMETHOD.
 
 > **Observation:** If `PartnerFunction` is empty, both `ShowValueHelpOne` and `ShowValueHelpTwo` will be false — meaning no value help is enabled. Clicking the `Partner` field in this state will throw a value help error.
 
-> **Workaround:** Disable the `Partner` field using **instance-based feature control** (`instance features`) whenever `PartnerFunction` is empty, so the user cannot interact with the field until a Partner Function is selected.
+> **Workaround:** Disable the `Partner` field using **feature control** (`instance features`) whenever `PartnerFunction` is empty, so the user cannot interact with the field until a Partner Function is selected.
 
-> **Note:** The `enabled` property in `@Consumption.valueHelpDefinition` is available from **BTP ABAP Environment (Public Cloud)** and **S/4HANA Private Cloud** from **2021** onwards.
+> **Note:** The `enabled` property in `@Consumption.valueHelpDefinition` is available from **BTP ABAP Environment, Public Cloud** and **S/4HANA Private Cloud** from **2021** onwards.
