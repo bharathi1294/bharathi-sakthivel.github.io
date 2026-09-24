@@ -18,7 +18,7 @@ This can be implemented in RAP, where the value help can dynamically change base
 
 In this post, I'll walk through the implementation step by step and show how we can achieve this using RAP.
 
-It is also possible to achieve the same scenario using **XML annotations**, with comparatively less implementation effort. I'll cover that approach in a separate post. 
+It is also possible to achieve the same scenario using **XML annotations**, with comparatively less implementation effort.
 
 ---
 
@@ -189,3 +189,65 @@ ENDMETHOD.
 > **Workaround:** Disable the `Partner` field using **feature control** (`instance features`) whenever `PartnerFunction` is empty, so the user cannot interact with the field until a Partner Function is selected.
 
 > **Note:** The `enabled` property in `@Consumption.valueHelpDefinition` is available from **BTP ABAP Environment, Public Cloud** and **S/4HANA Private Cloud** from **2021** onwards.
+
+---
+
+**XML Annotations Approach**
+
+> **Note:** Both approaches work only in OData V4 apps.
+
+So here no determination, no extra fields just
+
+**CDS:**
+
+```abap
+@Consumption.valueHelpDefinition:
+    [{
+       qualifier: 'ValueHelpOne',
+       entity: { name: 'ZI_PartnerVH_One', element: 'Partner' }
+      },
+      {
+       qualifier: 'ValueHelpTwo',
+       entity: { name: 'ZI_PartnerVH_Two', element: 'Partner' }
+     }
+    ]
+Partner;
+```
+
+**XML Annotation** (`project/webapp/annotations`)**:**
+
+```xml
+<Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="local">
+    <Annotations Target="SAP__self.ZC_RootEntityType/Partner">
+        <Annotation Term="com.sap.vocabularies.Common.v1.ValueListRelevantQualifiers">
+            <Collection>
+                <If>
+                    <Eq>
+                        <Path>PartnerFunction</Path>
+                        <String>VN</String>
+                    </Eq>
+                    <String>ValueHelpOne</String>
+                    <If>
+                        <Eq>
+                            <Path>PartnerFunction</Path>
+                            <String>SP</String>
+                        </Eq>
+                        <String>ValueHelpTwo</String>
+                        <String></String>
+                    </If>
+                </If>
+            </Collection>
+        </Annotation>
+        <Annotation Term="Common.FieldControl">
+            <If>
+                <Eq>
+                    <Path>PartnerFunction</Path>
+                    <String></String>
+                </Eq>
+                <EnumMember>Common.FieldControlType/ReadOnly</EnumMember>
+                <EnumMember>Common.FieldControlType/Optional</EnumMember>
+            </If>
+        </Annotation>
+    </Annotations>
+</Schema>
+```
