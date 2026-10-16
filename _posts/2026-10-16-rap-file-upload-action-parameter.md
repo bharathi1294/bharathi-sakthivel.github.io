@@ -20,7 +20,7 @@ To enable this, we need to create two abstract entities along with their respect
 
 The first abstract entity acts as the action parameter. It holds a dummy field and an association to the stream properties entity, which carries the actual file data.
 
-```abap
+```
 @EndUserText.label: 'File Upload'
 define root abstract entity ZDFileUpload
 {
@@ -31,7 +31,7 @@ define root abstract entity ZDFileUpload
 
 Its Abstract BDEF exposes the association with hierarchy:
 
-```abap
+```
 abstract;
 strict ( 2 );
 with hierarchy;
@@ -47,7 +47,7 @@ define behavior for ZDFileUpload alias FileUpload
 
 The second abstract entity defines the stream fields — the file content, MIME type, and filename — annotated with `@Semantics.largeObject` to enable the file upload behavior.
 
-```abap
+```
 @EndUserText.label: 'Stream Property'
 define root abstract entity ZDFileStreamProperty
 {
@@ -66,7 +66,7 @@ define root abstract entity ZDFileStreamProperty
 
 Its Abstract BDEF:
 
-```abap
+```
 abstract;
 strict ( 2 );
 with hierarchy;
@@ -82,7 +82,7 @@ define behavior for ZDFileStreamProperty alias StreamProperties
 
 Once the abstract entities are set up, the action can be declared in any BDEF as either a bound or unbound (static) action:
 
-```abap
+```
 static action fileUpload deep parameter ZDFileUpload; 
 action fileUpload deep parameter ZDFileUpload;
 ```
