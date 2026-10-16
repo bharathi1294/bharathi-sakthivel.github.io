@@ -95,7 +95,7 @@ Once this setup is done, it can be **reused in any BDEF** simply by referencing 
 
 ---
 
-📌 **Availability:** SAP S/4HANA Cloud Public Edition, SAP BTP ABAP Environment, and SAP S/4HANA Cloud Private Edition from 2025.
+**Availability:** SAP S/4HANA Cloud Public Edition, SAP BTP ABAP Environment, and SAP S/4HANA Cloud Private Edition from 2025.
 
 ![File Upload as an Action Parameter](/assets/images/FileUploadInActionParam.png)
 
