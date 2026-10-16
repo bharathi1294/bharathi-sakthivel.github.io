@@ -53,9 +53,8 @@ define root abstract entity ZDFileStreamProperty
 {
   @Semantics.largeObject.mimeType: 'mimetype'
   @Semantics.largeObject.fileName: 'filename'
-  @Semantics.largeObject.contentDispositionPreference: #INLINE
   @EndUserText.label: 'File'
-  streamproperty : abap.rawstring(0);
+  filecontent    : abap.rawstring(0);
 
   @UI.hidden     : true
   mimetype       : abap.char(133);
